@@ -1,28 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     public Transform player;
-    public float mouseSensitivity = 2f;
-    private float _cameraVerticalRotation = 0;
+    public float speed = 0.05f;
+
+    private float _currSpeed = 0f;
+    private float _cameraYRotation = 0;
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Confined;   
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float inputX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float inputY = Input.GetAxis("Mouse Y") * mouseSensitivity;
-        
-        _cameraVerticalRotation -= inputY;
-        _cameraVerticalRotation = Mathf.Clamp(_cameraVerticalRotation, -90, 90);
-        transform.localEulerAngles = Vector3.right * _cameraVerticalRotation;
+        _cameraYRotation += this._currSpeed;
+        _cameraYRotation = Mathf.Clamp(_cameraYRotation, -60, 60);
+        transform.localEulerAngles = Vector3.up * _cameraYRotation;
     }
+
+    public void MoveCamera(HoverType hoverType) {
+        int multiplier = 1;
+        if (hoverType == HoverType.CAMERA_RIGHT) {
+            multiplier = -1;
+        }
+        this._currSpeed = speed * multiplier;
+    }
+
+    public void StopMovingCamera(HoverType hoverType) {
+        this._currSpeed = 0;
+    } 
 }
