@@ -7,6 +7,7 @@ public enum HoverType {
     CAMERA_RIGHT,
     CAMERA_LEFT,
     CAMERA_BOTTOM,
+    SURVEY_TOP,
 }
 
 [System.Serializable]

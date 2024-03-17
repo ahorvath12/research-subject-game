@@ -1,24 +1,53 @@
+using System.Collections;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     public Transform player;
-    public float speed = 0.05f;
+    public float horizontalSpeed = 0.05f;
+    public float verticalSpeed = 2f;
+    public float lookDownXRot = 45f;
 
     private float _currSpeed = 0f;
-    private float _cameraYRotation = 0;
+    private float _cameraYRotation = 0f;
+
+    private GameController _gameController;
+    private GameState _state;
 
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;   
+
+        _gameController = GameController.Instance;
+        _state = _gameController.state;
     }
 
     void Update()
     {
-        _cameraYRotation += this._currSpeed;
-        _cameraYRotation = Mathf.Clamp(_cameraYRotation, -60, 60);
-        transform.localEulerAngles = Vector3.up * _cameraYRotation;
+        if (_state != _gameController.state) {
+            _state = _gameController.state;
+
+            switch(_state) {
+                case GameState.START_VIEW_ROOM:
+                    StartCoroutine(LookUp());
+                    break;
+                case GameState.START_VIEW_SURVEY:
+                    StartCoroutine(LookDown());
+                    break;
+                default:
+                    break;
+            }
+
+            return;
+        }
+
+        
+        if (_state == GameState.VIEW_ROOM) {
+            _cameraYRotation += _currSpeed;
+            _cameraYRotation = Mathf.Clamp(_cameraYRotation, -60, 60);
+            transform.localEulerAngles = Vector3.up * _cameraYRotation;
+        }
     }
 
     public void MoveCamera(HoverType hoverType) {
@@ -26,10 +55,34 @@ public class CameraController : MonoBehaviour
         if (hoverType == HoverType.CAMERA_RIGHT) {
             multiplier = -1;
         }
-        this._currSpeed = speed * multiplier;
+        _currSpeed = horizontalSpeed * multiplier;
     }
 
     public void StopMovingCamera(HoverType hoverType) {
-        this._currSpeed = 0;
+        _currSpeed = 0;
     } 
+
+    private IEnumerator LookDown() {
+        while(transform.localEulerAngles.x < lookDownXRot) {
+            transform.Rotate(Vector3.right, verticalSpeed * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+        transform.localEulerAngles = new Vector3(lookDownXRot,transform.localEulerAngles.y, transform.localEulerAngles.z);
+        _gameController.state = GameState.VIEW_SURVEY;
+    }
+
+    private IEnumerator LookUp() {
+        while(transform.localEulerAngles.x > 0) {
+            transform.Rotate(Vector3.right, -verticalSpeed * Time.deltaTime);
+
+            // for when rotation wraps around to 360
+            if (transform.localEulerAngles.x > lookDownXRot) { 
+                transform.localEulerAngles = new Vector3(0,transform.localEulerAngles.y, transform.localEulerAngles.z);
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
+        _gameController.state = GameState.VIEW_ROOM;
+    }
 }
