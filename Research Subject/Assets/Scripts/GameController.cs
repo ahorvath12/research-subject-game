@@ -16,21 +16,12 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
 
     public GameState state = GameState.VIEW_ROOM;
+    public GameSettings gameSettings;
 
     void Awake() {
         if (Instance == null || Instance != this) {
             Instance = this;
         }
-    }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
 
     public void HoverSubscriber(HoverType hoverType) {
