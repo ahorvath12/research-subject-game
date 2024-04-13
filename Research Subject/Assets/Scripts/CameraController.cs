@@ -45,14 +45,14 @@ public class CameraController : MonoBehaviour
         
         if (_state == GameState.VIEW_ROOM) {
             _cameraYRotation += _currSpeed;
-            _cameraYRotation = Mathf.Clamp(_cameraYRotation, -60, 60);
+            _cameraYRotation = Mathf.Clamp(_cameraYRotation, -30,30);
             transform.localEulerAngles = Vector3.up * _cameraYRotation;
         }
     }
 
     public void MoveCamera(HoverType hoverType) {
         int multiplier = 1;
-        if (hoverType == HoverType.CAMERA_RIGHT) {
+        if (hoverType == HoverType.CAMERA_LEFT) {
             multiplier = -1;
         }
         _currSpeed = horizontalSpeed * multiplier;
