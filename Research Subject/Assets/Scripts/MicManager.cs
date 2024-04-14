@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class MicManager : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class MicManager : MonoBehaviour
     public float threshold = 0.1f;
 
     private AudioClip microphoneClip;
+
+    [Header("Mic UI")]
+    public Image icon;
+    public Color offColor;
+    public Color onColor;
 
     public UnityEvent micTriggerEvent;
     
@@ -25,6 +31,10 @@ public class MicManager : MonoBehaviour
         if (loudness > threshold) {
             Debug.Log("detected " + loudness);
             micTriggerEvent.Invoke();
+            icon.color = onColor;
+        }
+        else {
+            icon.color = offColor;
         }
     }
 

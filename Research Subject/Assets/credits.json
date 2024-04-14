@@ -1,14 +1,41 @@
 {
-    "credits": [
+    "credits": 
         {
-            "name": "PSX Tech Pack",
-            "author": "Break Even Games",
-            "link": "https://tillion.itch.io/psx-tech-pack"
-        },
-        {
-            "name": "Paquete de modelos psx3",
-            "author": "Elbolilloduro",
-            "link": "https://elbolilloduro.itch.io/paquete-de-modelos-psx-3"
-        }
-    ]
+            "3d": [
+                {
+                    "name": "PSX Tech Pack",
+                    "author": "Break Even Games",
+                    "link": "https://tillion.itch.io/psx-tech-pack"
+                },
+                {
+                    "name": "Paquete de modelos psx3",
+                    "author": "Elbolilloduro",
+                    "link": "https://elbolilloduro.itch.io/paquete-de-modelos-psx-3"
+                },
+                {
+                    "name": "VHS Shop",
+                    "author": "Elbolilloduro",
+                    "link": "https://elbolilloduro.itch.io/vhs-shop"
+                }
+            ],
+            "2D": [
+                {
+                    "name": "Game Icons",
+                    "author": "Kenney",
+                    "link": "https://kenney.nl/assets/game-icons"
+                },
+                {
+                    "name": "Old microphone icon",
+                    "author": "Delapouite",
+                    "link": "https://game-icons.net/1x1/delapouite/old-microphone.html#download"
+                }
+            ],
+            "audio": [
+                {
+                    "name": "Interface Sounds",
+                    "author": "Kenney",
+                    "link": "https://kenney.nl/assets/interface-sounds"
+                }
+            ]
+        }   
 }
