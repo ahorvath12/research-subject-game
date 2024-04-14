@@ -36,6 +36,13 @@
                     "author": "Kenney",
                     "link": "https://kenney.nl/assets/interface-sounds"
                 }
+            ],
+            "fonts": [
+                {
+                    "name": "Old Newspaper Types",
+                    "author": "Manfred Klein",
+                    "link": "https://www.dafont.com/oldnewspapertypes.font",
+                }
             ]
         }   
 }
