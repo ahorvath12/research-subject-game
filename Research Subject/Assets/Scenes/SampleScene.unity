@@ -887,6 +887,7 @@ GameObject:
   - component: {fileID: 406453357}
   - component: {fileID: 406453356}
   - component: {fileID: 406453359}
+  - component: {fileID: 406453360}
   m_Layer: 0
   m_Name: StaticButton
   m_TagString: Untagged
@@ -1029,6 +1030,49 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ce54333f31af5674cbbc8938c76bbd1a, type: 3}
   - {fileID: 21300000, guid: 65b4db8dfedeeca45bb83a27091447bc, type: 3}
   - {fileID: 21300000, guid: e4bd55f68a09b404492533542ba1388f, type: 3}
+--- !u!114 &406453360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406453354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd62b04bae5895b479893e4629d743d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 0
+  onHoverEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 671209763}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ChangeCursorToPen
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHoverExitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 671209763}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ChangeCursorToDefault
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &423702726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2523,6 +2567,7 @@ GameObject:
   - component: {fileID: 652242799}
   - component: {fileID: 652242798}
   - component: {fileID: 652242801}
+  - component: {fileID: 652242802}
   m_Layer: 0
   m_Name: CorruptionButton
   m_TagString: Untagged
@@ -2665,6 +2710,49 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b453a574c30eadd46a63170a25d28fe8, type: 3}
   - {fileID: 21300000, guid: 6501dc23167935a47b21b8a0a1596b0e, type: 3}
   - {fileID: 21300000, guid: 048d3d8f0052312498a3c5564d63ae4f, type: 3}
+--- !u!114 &652242802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652242796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd62b04bae5895b479893e4629d743d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 0
+  onHoverEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 671209763}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ChangeCursorToPen
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHoverExitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 671209763}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ChangeCursorToDefault
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &662146303
 GameObject:
   m_ObjectHideFlags: 0
@@ -2785,6 +2873,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332216486d2d2ad41b845101c42cf9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultCursorTexture: {fileID: 2800000, guid: c00348e7c323337478360d4a16b74037, type: 3}
+  penCursorTexture: {fileID: 2800000, guid: 9b8a8c2b493815c43a7dccb0b8d14ab5, type: 3}
+  cursorColor: {r: 0, g: 0, b: 0, a: 1}
   state: 2
   gameSettings: {fileID: 11400000, guid: 8137fe4133a8a9148bc2fc406703227c, type: 2}
 --- !u!4 &671209764
@@ -3150,6 +3241,7 @@ GameObject:
   - component: {fileID: 741766173}
   - component: {fileID: 741766172}
   - component: {fileID: 741766175}
+  - component: {fileID: 741766176}
   m_Layer: 0
   m_Name: DisturbancesButton
   m_TagString: Untagged
@@ -3292,6 +3384,49 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 85df7d5ef22ff9245928ed509bfbebbc, type: 3}
   - {fileID: 21300000, guid: 208d4432f7acd5a46bfa9ad870271ce6, type: 3}
   - {fileID: 21300000, guid: b80bdff85dad3804e8f486d221b18c28, type: 3}
+--- !u!114 &741766176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741766170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd62b04bae5895b479893e4629d743d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverType: 4
+  onHoverEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 671209763}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ChangeCursorToPen
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHoverExitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 671209763}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ChangeCursorToDefault
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &751551835
 GameObject:
   m_ObjectHideFlags: 0

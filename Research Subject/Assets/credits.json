@@ -20,6 +20,10 @@
             ],
             "2D": [
                 {
+                    "name": "Cursor icon",
+                    "link": "https://www.flaticon.com/free-icon/cursor_1828166"
+                },
+                {
                     "name": "Game Icons",
                     "author": "Kenney",
                     "link": "https://kenney.nl/assets/game-icons"
@@ -28,6 +32,10 @@
                     "name": "Old microphone icon",
                     "author": "Delapouite",
                     "link": "https://game-icons.net/1x1/delapouite/old-microphone.html#download"
+                },
+                {
+                    "name": "Pen icon",
+                    "link": "https://www.flaticon.com/free-icon/pen_1659682"
                 }
             ],
             "audio": [
@@ -41,7 +49,7 @@
                 {
                     "name": "Old Newspaper Types",
                     "author": "Manfred Klein",
-                    "link": "https://www.dafont.com/oldnewspapertypes.font",
+                    "link": "https://www.dafont.com/oldnewspapertypes.font"
                 }
             ]
         }   
