@@ -38,6 +38,13 @@
                     "link": "https://www.flaticon.com/free-icon/pen_1659682"
                 }
             ],
+            "shaders": [
+                {
+                    "name": "PSXEffects",
+                    "author": "Triples Axis",
+                    "link": "https://assetstore.unity.com/packages/vfx/shaders/psxeffects-132368"
+                }
+            ],
             "audio": [
                 {
                     "name": "Interface Sounds",
