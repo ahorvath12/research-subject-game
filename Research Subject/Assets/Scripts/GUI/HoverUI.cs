@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 
 public enum HoverType {
+    DEFAULT,
     CAMERA_RIGHT,
     CAMERA_LEFT,
     CAMERA_BOTTOM,

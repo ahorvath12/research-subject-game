@@ -8,30 +8,32 @@ public class GameGuiManager : MonoBehaviour
     public GameObject surveyUI;
 
     private GameController _gameController;
-    private GameState _state;
+    private UIState _state;
 
     void Start()
     {
         _gameController = GameController.Instance;
+        surveyUI.SetActive(false);
+        mainGameUI.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_state != _gameController.state) {
-            _state = _gameController.state;
+        if (_state != _gameController.uiState) {
+            _state = _gameController.uiState;
 
             switch(_state) {
-                case GameState.START_VIEW_ROOM:
+                case UIState.START_VIEW_ROOM:
                     surveyUI.SetActive(false);
                     break;
-                case GameState.VIEW_ROOM:
+                case UIState.VIEW_ROOM:
                     mainGameUI.SetActive(true);
                     break;
-                case GameState.START_VIEW_SURVEY:
+                case UIState.START_VIEW_SURVEY:
                     mainGameUI.SetActive(false);
                     break;
-                case GameState.VIEW_SURVEY:
+                case UIState.VIEW_SURVEY:
                     surveyUI.SetActive(true);
                     break;
                 default:

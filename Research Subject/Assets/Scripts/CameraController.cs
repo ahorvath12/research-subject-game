@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
     private float _cameraYRotation = 0f;
 
     private GameController _gameController;
-    private GameState _state;
+    private UIState _state;
 
 
     void Start()
@@ -20,19 +20,19 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;   
 
         _gameController = GameController.Instance;
-        _state = _gameController.state;
+        _state = _gameController.uiState;
     }
 
     void Update()
     {
-        if (_state != _gameController.state) {
-            _state = _gameController.state;
+        if (_state != _gameController.uiState) {
+            _state = _gameController.uiState;
 
             switch(_state) {
-                case GameState.START_VIEW_ROOM:
+                case UIState.START_VIEW_ROOM:
                     StartCoroutine(LookUp());
                     break;
-                case GameState.START_VIEW_SURVEY:
+                case UIState.START_VIEW_SURVEY:
                     StartCoroutine(LookDown());
                     break;
                 default:
@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour
         }
 
         
-        if (_state == GameState.VIEW_ROOM) {
+        if (_state == UIState.VIEW_ROOM) {
             _cameraYRotation += _currSpeed;
             _cameraYRotation = Mathf.Clamp(_cameraYRotation, -30,30);
             transform.localEulerAngles = Vector3.up * _cameraYRotation;
@@ -68,7 +68,7 @@ public class CameraController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         transform.localEulerAngles = new Vector3(lookDownXRot,transform.localEulerAngles.y, transform.localEulerAngles.z);
-        _gameController.state = GameState.VIEW_SURVEY;
+        _gameController.uiState = UIState.VIEW_SURVEY;
     }
 
     private IEnumerator LookUp() {
@@ -83,6 +83,6 @@ public class CameraController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
-        _gameController.state = GameState.VIEW_ROOM;
+        _gameController.uiState = UIState.VIEW_ROOM;
     }
 }

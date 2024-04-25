@@ -1,0 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AnimationEventHandler : MonoBehaviour
+{
+
+    public Animator nextAnimatorToEnable;
+
+    public void ChangeGameState(GameState newState) {
+        GameController.Instance.ChangeGameState(newState);
+    }
+
+    public void ChangeUIState(UIState newState) {
+        GameController.Instance.ChangeUIState(newState);
+    }
+
+    public void PlayNextAnimation() {        
+        nextAnimatorToEnable.enabled = true;
+    }
+}

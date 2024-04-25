@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState {
-    NOT_STARTED,
+public enum UIState {
+    NONE,
     START_VIEW_ROOM,
     VIEW_ROOM,
     START_VIEW_SURVEY,
     VIEW_SURVEY,
+}
+
+public enum GameState {
+    NOT_STARTED,
+    RUNNING,
     PAUSE,
 }
 
@@ -18,12 +23,19 @@ public class GameController : MonoBehaviour
     [Header("Cursor Settings")]
     public Texture2D defaultCursorTexture;
     public Texture2D penCursorTexture;
+    public Texture2D selectCursorTexture;
     private CursorMode cursorMode = CursorMode.Auto;
     public Color cursorColor;
 
     [Header("Game Settings")]
-    public GameState state = GameState.VIEW_ROOM;
+    public GameState state = GameState.NOT_STARTED;
+    public UIState uiState = UIState.NONE;
     public GameSettings gameSettings;
+
+    [Header("Debugging")]
+    [SerializeField]
+    private bool _runTimer = false;
+    private float _timer = 120;
 
     void Awake() {
         if (Instance == null || Instance != this) {
@@ -32,18 +44,26 @@ public class GameController : MonoBehaviour
     }
 
     void Start() {
-        // ColorCursor(defaultCursorTexture);
-        // ColorCursor(penCursorTexture);
         Cursor.SetCursor(defaultCursorTexture, Vector2.zero, cursorMode);
+    }
+
+    void Update() {
+        if (_runTimer) {
+            _timer -= Time.deltaTime;
+        }
+
+        if (_timer <= 0) {
+            Debug.Log("GAME OVER");
+        }
     }
 
     public void HoverSubscriber(HoverType hoverType) {
         switch(hoverType) {
             case HoverType.CAMERA_BOTTOM:
-                ChangeState(GameState.START_VIEW_SURVEY);
+                ChangeUIState(UIState.START_VIEW_SURVEY);
                 break;
             case HoverType.SURVEY_TOP:
-                ChangeState(GameState.START_VIEW_ROOM);
+                ChangeUIState(UIState.START_VIEW_ROOM);
                 break;
             default:
                 break;
@@ -54,21 +74,23 @@ public class GameController : MonoBehaviour
         Cursor.SetCursor(penCursorTexture, Vector2.zero, cursorMode);
     }
 
+    public void ChangeCursorToSelect(HoverType hoverType) {
+        Cursor.SetCursor(selectCursorTexture, Vector2.zero, cursorMode);
+    }
+
     public void ChangeCursorToDefault(HoverType hoverType) {
         Cursor.SetCursor(defaultCursorTexture, Vector2.zero, cursorMode);
     }
 
-    public void ChangeState(GameState newState) {
+    public void ChangeUIState(UIState newState) {
+        uiState = newState;
+    }
+
+    public void ChangeGameState(GameState newState) {
         state = newState;
     }
 
-    void ColorCursor(Texture2D cursorTexture)
-    {
-        for (int y=0; y< cursorTexture.height; y++)
-        {
-            for(int x = 0; x < cursorTexture.width; x++)
-                cursorTexture.SetPixel(x, y, cursorColor);
-        }
-        cursorTexture.Apply();
+    public void StartVideo() {
+        ChangeGameState(GameState.RUNNING);
     }
 }
