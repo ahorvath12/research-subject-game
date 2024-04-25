@@ -81,6 +81,9 @@ public class GameController : MonoBehaviour
     public void ChangeCursorToDefault(HoverType hoverType) {
         Cursor.SetCursor(defaultCursorTexture, Vector2.zero, cursorMode);
     }
+    public void ChangeCursorToDefault() {
+        Cursor.SetCursor(defaultCursorTexture, Vector2.zero, cursorMode);
+    }
 
     public void ChangeUIState(UIState newState) {
         uiState = newState;
