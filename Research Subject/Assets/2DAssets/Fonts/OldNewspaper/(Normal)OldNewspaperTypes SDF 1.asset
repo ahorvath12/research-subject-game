@@ -57,11 +57,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: OldNewspaperTypes SDF
+  m_Name: (Normal)OldNewspaperTypes SDF 1
   m_EditorClassIdentifier: 
-  hashCode: -1324861820
+  hashCode: 1104825319
   material: {fileID: 3230280364798349844}
-  materialHashCode: -2038201692
+  materialHashCode: -1791332889
   m_Version: 1.1.0
   m_SourceFontFileGUID: e84d889e6588b794b9f854c019f0b662
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: e84d889e6588b794b9f854c019f0b662, type: 3}

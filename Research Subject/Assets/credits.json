@@ -58,9 +58,19 @@
             ],
             "fonts": [
                 {
+                    "name": "JMH Typewriter Dry",
+                    "author": "Jorge Morón",
+                    "link": "https://www.dafont.com/jmh-typewriter-dry.font"
+                },
+                {
                     "name": "Old Newspaper Types",
                     "author": "Manfred Klein",
                     "link": "https://www.dafont.com/oldnewspapertypes.font"
+                },
+                {
+                    "name": "Tox Typewriter",
+                    "author": "junkohanhero",
+                    "link": "https://www.dafont.com/tox-typewriter.font"
                 }
             ]
         }   

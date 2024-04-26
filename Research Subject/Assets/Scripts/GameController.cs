@@ -25,7 +25,6 @@ public class GameController : MonoBehaviour
     public Texture2D penCursorTexture;
     public Texture2D selectCursorTexture;
     private CursorMode cursorMode = CursorMode.Auto;
-    public Color cursorColor;
 
     [Header("Game Settings")]
     public GameState state = GameState.NOT_STARTED;
