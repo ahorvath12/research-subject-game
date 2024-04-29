@@ -15,6 +15,10 @@ public class AnimationEventHandler : MonoBehaviour
         GameController.Instance.ChangeUIState(newState);
     }
 
+    public void ChangeMainMenuState(MainMenuState newState) {
+        MainMenuGUI.Instance.Changestate(newState);
+    }
+
     public void PlayNextAnimation() {        
         nextAnimatorToEnable.enabled = true;
     }
