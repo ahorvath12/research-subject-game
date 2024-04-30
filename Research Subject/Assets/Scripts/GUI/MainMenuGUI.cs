@@ -5,19 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-struct FadingUI {
-    public CanvasGroup ui;
-    public float targetAlpha;
-
-    public Action callbackOnEnd;
-
-    public FadingUI(CanvasGroup ui, float targetAlpha, Action callbackOnEnd = null ) {
-        this.ui = ui;
-        this.targetAlpha = targetAlpha;
-        this.callbackOnEnd = callbackOnEnd;
-    }
-}
-
 public enum MainMenuState {
     MAIN,
     INTRO,
@@ -43,11 +30,6 @@ public class MainMenuGUI : MonoBehaviour
     private bool canShowContinueButton;
 
 
-    private List<FadingUI> uiToFade = new List<FadingUI>();
-    private int fadingIndex = 0;
-    [SerializeField] private float lerpStep = 5;
-    private float waitTimer = 0f;
-
     private bool activateGameScene = false;
 
     void Awake() {
@@ -57,54 +39,17 @@ public class MainMenuGUI : MonoBehaviour
     }
 
     private void Update() {
-        if (waitTimer > 0) {
-            waitTimer -= Time.deltaTime;
-            return;
-        }
-
-        if (uiToFade.Count > 0) {
-            CanvasGroup currentFading = uiToFade[fadingIndex].ui;
-            float targetAlpha = uiToFade[fadingIndex].targetAlpha;
-            currentFading.alpha = Mathf.Lerp(currentFading.alpha, targetAlpha, lerpStep * Time.deltaTime);
-            if (Mathf.Abs(currentFading.alpha-targetAlpha) < 0.05) {
-                currentFading.alpha = targetAlpha;
-                waitTimer = 0.5f;
-
-                if (targetAlpha == 0) {
-                    currentFading.interactable = false;
-                    currentFading.blocksRaycasts = false;
-                }
-                else {
-                    currentFading.interactable = true;
-                    currentFading.blocksRaycasts = true;
-                }
-
-                Action callback = uiToFade[fadingIndex].callbackOnEnd;
-                if (callback != null) {
-                    callback();
-                }
-                fadingIndex++;
-            }
-
-            if (fadingIndex >= uiToFade.Count) {
-                fadingIndex = 0;
-                waitTimer = 0;
-                uiToFade.Clear();
-            }
-        }
     }
 
     public void Changestate(MainMenuState newState) {
         this.state = newState;
-
         HandleState();
     }
 
     private void HandleState() {
         switch(this.state) {
             case MainMenuState.INTRO: 
-                waitTimer = 0.25f;
-                uiToFade.Add(new FadingUI(intro, 1, StartLoadScene));
+                GuiFadeManager.Instance.QueueFade(new List<FadingUI>{new FadingUI(intro, 1, StartLoadScene)}, 0.25f);
                 break;
             default:
                 break;
@@ -112,13 +57,13 @@ public class MainMenuGUI : MonoBehaviour
     }
 
     public void LoadGame() {
-        waitTimer = 0.25f;
-        uiToFade.Add(new FadingUI(mainMenu, 0));
-        StartCoroutine(WaitAndAnimatePlayer(waitTimer * 2));
+        float timer = 0.25f;
+        GuiFadeManager.Instance.QueueFade(new List<FadingUI>{new FadingUI(mainMenu, 0)}, timer);
+        StartCoroutine(WaitAndAnimatePlayer(timer * 2));
     }
 
     public void StartGame() {
-        uiToFade.Add(new FadingUI(blackPanel, 1, ChangeScene));
+        GuiFadeManager.Instance.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 1, ChangeScene)});
     }
 
     public void OpenSettings() {
@@ -136,8 +81,7 @@ public class MainMenuGUI : MonoBehaviour
     public void Signed() {
         signatures++;
         if (signatures >= 2) {
-            uiToFade.Add(new FadingUI(formContinueButton.GetComponent<CanvasGroup>(), 1));
-            waitTimer = 0.3f;
+            GuiFadeManager.Instance.QueueFade(new List<FadingUI>{new FadingUI(formContinueButton.GetComponent<CanvasGroup>(), 1)}, 0.3f);
         }
     }
 
@@ -163,8 +107,10 @@ public class MainMenuGUI : MonoBehaviour
             if (asyncOperation.progress >= 0.9f)
             {
                 canShowContinueButton = true;
-                if (activateGameScene)
+                if (activateGameScene) {
+                    yield return new WaitForSeconds(1);
                     asyncOperation.allowSceneActivation = true;
+                }
             }
 
             yield return null;

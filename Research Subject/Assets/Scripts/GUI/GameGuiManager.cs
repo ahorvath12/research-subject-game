@@ -4,23 +4,39 @@ using UnityEngine;
 
 public class GameGuiManager : MonoBehaviour
 {
+    [Header("UI Groups")]
+    public GameObject mainUI;
+    public GameObject pauseUI;
+    public CanvasGroup blackPanel;
+
+    [Header("Arrow Groups")]
     public GameObject mainGameUI;
     public GameObject surveyUI;
 
     private GameController _gameController;
     private UIState _state;
 
+    private GuiFadeManager fadeManager;
+
     void Start()
     {
         _gameController = GameController.Instance;
         surveyUI.SetActive(false);
         mainGameUI.SetActive(false);
+
+        fadeManager = GuiFadeManager.Instance;
+
+        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 0)});
     }
 
-    // Update is called once per frame
     void Update()
     {
+        
         if (_state != _gameController.uiState) {
+            if (_state == UIState.PAUSE) {
+                mainUI.SetActive(true);
+                pauseUI.SetActive(false);
+            }
             _state = _gameController.uiState;
 
             switch(_state) {
@@ -29,6 +45,7 @@ public class GameGuiManager : MonoBehaviour
                     break;
                 case UIState.VIEW_ROOM:
                     mainGameUI.SetActive(true);
+                    FadeInMainGameUI();
                     break;
                 case UIState.START_VIEW_SURVEY:
                     mainGameUI.SetActive(false);
@@ -36,9 +53,33 @@ public class GameGuiManager : MonoBehaviour
                 case UIState.VIEW_SURVEY:
                     surveyUI.SetActive(true);
                     break;
+                case UIState.PAUSE:
+                    mainUI.SetActive(false);
+                    pauseUI.SetActive(true);
+                    break;
                 default:
                     break;
             }
         }
+    }
+
+    public void FadeInMainGameUI() {
+        CanvasGroup mainGameUIGroup = mainGameUI.GetComponent<CanvasGroup>();
+        if (!mainGameUIGroup) {
+            return;
+        }
+        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(mainGameUIGroup, 1)});
+    }
+
+    public void ResumeGame() {
+        GameController.Instance.UnpauseGame();
+    }
+
+    public void OpenSettings() {
+
+    }
+
+    public void ReturnToMenu() {
+
     }
 }

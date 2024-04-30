@@ -8,6 +8,7 @@ public enum UIState {
     VIEW_ROOM,
     START_VIEW_SURVEY,
     VIEW_SURVEY,
+    PAUSE,
 }
 
 public enum GameState {
@@ -28,7 +29,9 @@ public class GameController : MonoBehaviour
 
     [Header("Game Settings")]
     public GameState state = GameState.NOT_STARTED;
+    private GameState _lastState;
     public UIState uiState = UIState.NONE;
+    private UIState _lastUiState;
     public GameSettings gameSettings;
 
     [Header("Debugging")]
@@ -47,6 +50,17 @@ public class GameController : MonoBehaviour
     }
 
     void Update() {
+        if (state == GameState.PAUSE) {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            _lastState = state;
+            _lastUiState = uiState;
+            state = GameState.PAUSE;
+            uiState = UIState.PAUSE;
+        }
+        
         if (_runTimer) {
             _timer -= Time.deltaTime;
         }
@@ -94,5 +108,10 @@ public class GameController : MonoBehaviour
 
     public void StartVideo() {
         ChangeGameState(GameState.RUNNING);
+    }
+
+    public void UnpauseGame() {
+        state = _lastState;
+        uiState = _lastUiState;
     }
 }
