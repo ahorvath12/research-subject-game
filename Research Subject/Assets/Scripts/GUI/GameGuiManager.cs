@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameGuiManager : MonoBehaviour
 {
@@ -98,6 +99,10 @@ public class GameGuiManager : MonoBehaviour
     }
 
     public void ReturnToMenu() {
+        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 1, LoadMenuScene)}, 0.25f);
+    }
 
+    private void LoadMenuScene() {
+        SceneManager.LoadScene(0);
     }
 }

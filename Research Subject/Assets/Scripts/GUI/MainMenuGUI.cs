@@ -42,6 +42,8 @@ public class MainMenuGUI : MonoBehaviour
 
     void Start() {
         fadeManager = GuiFadeManager.Instance;
+
+        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 0)});
     }
 
     private void Update() {
