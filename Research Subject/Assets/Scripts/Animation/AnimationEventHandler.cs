@@ -22,4 +22,14 @@ public class AnimationEventHandler : MonoBehaviour
     public void PlayNextAnimation() {        
         nextAnimatorToEnable.enabled = true;
     }
+
+    public void PlayAudioClip(AudioClip clip) {
+        AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
+        if (!audioSource) {
+            return;
+        }
+
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
 }

@@ -50,6 +50,21 @@
                 }
             ],
             "audio": [
+                {  
+                    "name": "Ceiling Fan (Indoor).wav",
+                    "author": "embracetheart",
+                    "link": "https://freesound.org/people/embracetheart/sounds/345230/"
+                },
+                {
+                    "name": "door open + creak - outside to inside.wav",
+                    "author": "Anthousai",
+                    "link": "https://freesound.org/people/Anthousai/sounds/398749/"
+                },
+                {
+                    "name": "Door Slam - No Reverb.wav",
+                    "author": "adriann",
+                    "link": "https://freesound.org/people/adriann/sounds/440261/"
+                },
                 {
                     "name": "Mouse 1 Button Long Click",
                     "author": "aphom000",
@@ -59,6 +74,16 @@
                     "name": "Scribble_short.wav",
                     "author": "waldram",
                     "link": "https://freesound.org/people/waldram/sounds/257518/"
+                },
+                {
+                    "name": "Thump.ogg",
+                    "author": "egomassive",
+                    "link": "https://freesound.org/people/egomassive/sounds/536768/"
+                },
+                {
+                    "name": "Thud.ogg",
+                    "author": "egomassive",
+                    "link": "https://freesound.org/people/egomassive/sounds/536766/"
                 }
             ],
             "fonts": [

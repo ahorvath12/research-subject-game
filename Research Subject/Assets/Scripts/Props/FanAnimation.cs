@@ -7,8 +7,14 @@ public class FanAnimation : MonoBehaviour
     public float rotationSpeed = 1000;
     public int decreaseSpeed = 500;
 
-    private bool turnOff = false;
+    [SerializeField]private bool turnOff = false;
     private bool off = false;
+
+    private AudioSource audioSource;
+
+    void Start() {
+        audioSource = this.gameObject.GetComponent<AudioSource>();
+    }
 
     void Update()
     {
@@ -20,8 +26,10 @@ public class FanAnimation : MonoBehaviour
 
         if (turnOff) {
             rotationSpeed -= decreaseSpeed * Time.deltaTime;
+            audioSource.pitch -= 0.5f * Time.deltaTime;
             if (rotationSpeed <= 0) {
                 off = true;
+                audioSource.pitch = 0;
             }
         }
     }
