@@ -5,13 +5,14 @@ using UnityEngine;
 public struct FadingUI {
     public CanvasGroup ui;
     public float targetAlpha;
-
     public Action callbackOnEnd;
+    public float waitTimeAfterFade;
 
-    public FadingUI(CanvasGroup ui, float targetAlpha, Action callbackOnEnd = null ) {
+    public FadingUI(CanvasGroup ui, float targetAlpha, Action callbackOnEnd = null, float waitTimeAfterFade = 0 ) {
         this.ui = ui;
         this.targetAlpha = targetAlpha;
         this.callbackOnEnd = callbackOnEnd;
+        this.waitTimeAfterFade = waitTimeAfterFade;
     }
 }
 
@@ -61,6 +62,8 @@ public class GuiFadeManager : MonoBehaviour
                 if (callback != null) {
                     callback();
                 }
+
+                waitTimer = uiToFade[fadingIndex].waitTimeAfterFade;
                 fadingIndex++;
             }
 

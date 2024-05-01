@@ -22,6 +22,7 @@ public class MainMenuGUI : MonoBehaviour
     public CanvasGroup intro;
     public CanvasGroup settings;
     public CanvasGroup blackPanel;
+    public List<CanvasGroup> credits;
 
     [Header("Other")]
     public GameObject player;
@@ -85,7 +86,16 @@ public class MainMenuGUI : MonoBehaviour
     }
 
     public void OpenCredits() {
-
+        List<FadingUI> fadeList = new List<FadingUI>{new FadingUI(mainMenu, 0)};
+        for (int i = 0; i < credits.Count; i++) {
+            CanvasGroup cg = credits[i];
+            FadingUI fadeInUI = new FadingUI(cg, 1, null, 2);
+            FadingUI fadeOutUI = new FadingUI(cg, 0, null, 0.5f);
+            fadeList.Add(fadeInUI);
+            fadeList.Add(fadeOutUI);
+        }
+        fadeList.Add(new FadingUI(mainMenu, 1));
+        fadeManager.QueueFade(fadeList, 0.25f);
     }
     
     public void QuitGame() {

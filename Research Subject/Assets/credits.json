@@ -3,14 +3,14 @@
         {
             "3d": [
                 {
-                    "name": "PSX Tech Pack",
-                    "author": "Break Even Games",
-                    "link": "https://tillion.itch.io/psx-tech-pack"
-                },
-                {
                     "name": "Paquete de modelos psx3",
                     "author": "Elbolilloduro",
                     "link": "https://elbolilloduro.itch.io/paquete-de-modelos-psx-3"
+                },
+                {
+                    "name": "PSX Tech Pack",
+                    "author": "Break Even Games",
+                    "link": "https://tillion.itch.io/psx-tech-pack"
                 },
                 {
                     "name": "VHS Shop",
@@ -51,9 +51,14 @@
             ],
             "audio": [
                 {
-                    "name": "Interface Sounds",
-                    "author": "Kenney",
-                    "link": "https://kenney.nl/assets/interface-sounds"
+                    "name": "Mouse 1 Button Long Click",
+                    "author": "aphom000",
+                    "link": "https://freesound.org/people/aphom000/sounds/687106/"
+                },
+                {
+                    "name": "Scribble_short.wav",
+                    "author": "waldram",
+                    "link": "https://freesound.org/people/waldram/sounds/257518/"
                 }
             ],
             "fonts": [
