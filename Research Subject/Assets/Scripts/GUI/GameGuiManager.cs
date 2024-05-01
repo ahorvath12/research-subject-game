@@ -9,6 +9,10 @@ public class GameGuiManager : MonoBehaviour
     public GameObject pauseUI;
     public CanvasGroup blackPanel;
 
+    [Header("Pause UI")]
+    public GameObject pauseMenu;
+    public GameObject settingsMenu;
+
     [Header("Arrow Groups")]
     public GameObject mainGameUI;
     public GameObject surveyUI;
@@ -64,11 +68,19 @@ public class GameGuiManager : MonoBehaviour
     }
 
     public void FadeInMainGameUI() {
+        if (_gameController.state != GameState.NOT_STARTED) {
+            return;
+        }
+
         CanvasGroup mainGameUIGroup = mainGameUI.GetComponent<CanvasGroup>();
         if (!mainGameUIGroup) {
             return;
         }
-        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(mainGameUIGroup, 1)});
+        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(mainGameUIGroup, 1, StartGame)});
+    }
+
+    public void StartGame() {
+        _gameController.ChangeGameState(GameState.RUNNING);
     }
 
     public void ResumeGame() {
@@ -76,7 +88,13 @@ public class GameGuiManager : MonoBehaviour
     }
 
     public void OpenSettings() {
+        pauseMenu.SetActive(false);
+        settingsMenu.SetActive(true);
+    }
 
+    public void CloseSettings() {
+        pauseMenu.SetActive(true);
+        settingsMenu.SetActive(false);
     }
 
     public void ReturnToMenu() {

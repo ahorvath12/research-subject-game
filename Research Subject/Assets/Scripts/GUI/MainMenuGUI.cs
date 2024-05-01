@@ -20,6 +20,7 @@ public class MainMenuGUI : MonoBehaviour
     [Header("MenuPanels")]
     public CanvasGroup mainMenu;
     public CanvasGroup intro;
+    public CanvasGroup settings;
     public CanvasGroup blackPanel;
 
     [Header("Other")]
@@ -29,6 +30,7 @@ public class MainMenuGUI : MonoBehaviour
     public GameObject formContinueButton;
     private bool canShowContinueButton;
 
+    private GuiFadeManager fadeManager;
 
     private bool activateGameScene = false;
 
@@ -36,6 +38,10 @@ public class MainMenuGUI : MonoBehaviour
         if (Instance == null || Instance != this) {
             Instance = this;
         }
+    }
+
+    void Start() {
+        fadeManager = GuiFadeManager.Instance;
     }
 
     private void Update() {
@@ -49,7 +55,7 @@ public class MainMenuGUI : MonoBehaviour
     private void HandleState() {
         switch(this.state) {
             case MainMenuState.INTRO: 
-                GuiFadeManager.Instance.QueueFade(new List<FadingUI>{new FadingUI(intro, 1, StartLoadScene)}, 0.25f);
+                fadeManager.QueueFade(new List<FadingUI>{new FadingUI(intro, 1, StartLoadScene)}, 0.25f);
                 break;
             default:
                 break;
@@ -58,16 +64,22 @@ public class MainMenuGUI : MonoBehaviour
 
     public void LoadGame() {
         float timer = 0.25f;
-        GuiFadeManager.Instance.QueueFade(new List<FadingUI>{new FadingUI(mainMenu, 0)}, timer);
+        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(mainMenu, 0)}, timer);
         StartCoroutine(WaitAndAnimatePlayer(timer * 2));
     }
 
     public void StartGame() {
-        GuiFadeManager.Instance.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 1, ChangeScene)});
+        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 1, ChangeScene)});
     }
 
     public void OpenSettings() {
+        List<FadingUI> fadeList = new List<FadingUI>{new FadingUI(mainMenu, 0), new FadingUI(settings, 1)};
+        fadeManager.QueueFade(fadeList, 0.25f);
+    }
 
+    public void CloseSettings() {
+        List<FadingUI> fadeList = new List<FadingUI>{new FadingUI(settings, 0), new FadingUI(mainMenu, 1)};
+        fadeManager.QueueFade(fadeList, 0.25f);
     }
 
     public void OpenCredits() {
@@ -81,7 +93,7 @@ public class MainMenuGUI : MonoBehaviour
     public void Signed() {
         signatures++;
         if (signatures >= 2) {
-            GuiFadeManager.Instance.QueueFade(new List<FadingUI>{new FadingUI(formContinueButton.GetComponent<CanvasGroup>(), 1)}, 0.3f);
+            fadeManager.QueueFade(new List<FadingUI>{new FadingUI(formContinueButton.GetComponent<CanvasGroup>(), 1)}, 0.3f);
         }
     }
 

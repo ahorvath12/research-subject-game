@@ -44,7 +44,7 @@ public class GuiFadeManager : MonoBehaviour
             CanvasGroup currentFading = uiToFade[fadingIndex].ui;
             float targetAlpha = uiToFade[fadingIndex].targetAlpha;
             currentFading.alpha = Mathf.Lerp(currentFading.alpha, targetAlpha, lerpStep * Time.deltaTime);
-            if (Mathf.Abs(currentFading.alpha-targetAlpha) < 0.05) {
+            if (Mathf.Abs(currentFading.alpha-targetAlpha) < 0.01) {
                 currentFading.alpha = targetAlpha;
                 waitTimer = 0.5f;
 

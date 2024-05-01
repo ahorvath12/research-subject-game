@@ -32,7 +32,6 @@ public class GameController : MonoBehaviour
     private GameState _lastState;
     public UIState uiState = UIState.NONE;
     private UIState _lastUiState;
-    public GameSettings gameSettings;
 
     [Header("Debugging")]
     [SerializeField]
@@ -50,7 +49,7 @@ public class GameController : MonoBehaviour
     }
 
     void Update() {
-        if (state == GameState.PAUSE) {
+        if (state != GameState.RUNNING) {
             return;
         }
 

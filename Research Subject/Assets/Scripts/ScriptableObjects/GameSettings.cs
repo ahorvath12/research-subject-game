@@ -6,4 +6,6 @@ using UnityEngine;
 public class GameSettings : ScriptableObject
 {
     public int micIndex;
+    public float micSensitivity = 0.5f;
+    public float volume = 1f;
 }

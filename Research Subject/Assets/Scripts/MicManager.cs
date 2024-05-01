@@ -39,12 +39,12 @@ public class MicManager : MonoBehaviour
     }
 
     public void MicrophoneToAudioClip() {
-        string microphoneName = Microphone.devices[GameController.Instance.gameSettings.micIndex];
+        string microphoneName = Microphone.devices[SettingsManager.Instance.gameSettings.micIndex];
         microphoneClip = Microphone.Start(microphoneName, true, 20, AudioSettings.outputSampleRate);
     }
 
     public float GetLoudnessFromMic() {
-        int clipPosition = Microphone.GetPosition(Microphone.devices[GameController.Instance.gameSettings.micIndex]);
+        int clipPosition = Microphone.GetPosition(Microphone.devices[SettingsManager.Instance.gameSettings.micIndex]);
         int startPosition = clipPosition - sampleWindow;
 
         if (startPosition < 0) {
