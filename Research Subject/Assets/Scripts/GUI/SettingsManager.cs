@@ -8,11 +8,10 @@ public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance {get; private set;}
 
-    public GameSettings gameSettings;
-
     public TMP_Dropdown micDropdown;
     public Slider micSlider;
     public Slider volumeSlider;
+    private int _micListCount = 0;
 
     void Awake() {
         if (Instance == null || Instance != this) {
@@ -22,24 +21,37 @@ public class SettingsManager : MonoBehaviour
 
     void Start()
     {
+        UpdateMicList();
+    }
+
+    void Update() {
+        if (_micListCount != Microphone.devices.Length) {
+            UpdateMicList();
+        }
+    }
+
+    private void UpdateMicList() {
         string[] micList = Microphone.devices;
         micDropdown.ClearOptions();
         micDropdown.AddOptions(new List<string>(micList));
-        micDropdown.value = gameSettings.micIndex;
+        micDropdown.value = PlayerPrefs.GetInt("micIndex", 0);
 
-        micSlider.value = gameSettings.micSensitivity;
-        volumeSlider.value = gameSettings.volume;
+        micSlider.value = PlayerPrefs.GetFloat("micSensitivity", 0.5f);
+        volumeSlider.value = PlayerPrefs.GetFloat("micSensitivity", 0);
+
+        _micListCount = micList.Length;
     }
 
     public void UpdateActiveMic() {
-        gameSettings.micIndex = micDropdown.value;
+        PlayerPrefs.SetInt("micIndex", micDropdown.value);
     }
 
     public void UpdateMicSensitivity() {
-        gameSettings.micSensitivity = micSlider.value;
+        PlayerPrefs.SetFloat("micSensitivity", micSlider.value);
     }
 
     public void UpdateVolume() {
-        gameSettings.volume = volumeSlider.value;
+        PlayerPrefs.SetFloat("volume", volumeSlider.value);
+        AudioListener.volume = volumeSlider.value;
     }
 }
