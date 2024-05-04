@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum UIState {
     NONE,
@@ -15,6 +16,12 @@ public enum GameState {
     NOT_STARTED,
     RUNNING,
     PAUSE,
+}
+
+class EventBlock
+{
+    public bool hasPropEvent = false;
+    public bool hasTvEvent = false;
 }
 
 public class GameController : MonoBehaviour
@@ -33,10 +40,25 @@ public class GameController : MonoBehaviour
     public UIState uiState = UIState.NONE;
     private UIState _lastUiState;
 
+    [Header("Other")]
+    public UnityEvent pauseEvent, unpauseEvent;
+
     [Header("Debugging")]
     [SerializeField]
     private bool _runTimer = false;
-    private float _timer = 120;
+    private float maxTime = 120;
+    public float timer = 0;
+
+    private float _eventsStartTime = 10;
+    private float _mediumEventsStartTime = 30;
+    private float _monsterEventStartTime = 50;
+    private bool _startEvents, _startMediumEvents, _startMonsterEvent;
+
+    private List<DisturbanceEvent> _disturbances = new List<DisturbanceEvent>();
+    private List<EventBlock> _eventTimeBlocks = new List<EventBlock>();
+    private float _eventStepTime = 10;
+
+    private bool _initialized = false;
 
     void Awake() {
         if (Instance == null || Instance != this) {
@@ -49,24 +71,28 @@ public class GameController : MonoBehaviour
     }
 
     void Update() {
+        if (state == GameState.NOT_STARTED && !_initialized)
+        {
+            InitializeEventTimes();
+        }
         if (state != GameState.RUNNING) {
             return;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
-            _lastState = state;
-            _lastUiState = uiState;
-            state = GameState.PAUSE;
-            uiState = UIState.PAUSE;
+            PauseGame();
         }
         
         if (_runTimer) {
-            _timer -= Time.deltaTime;
+            timer += Time.deltaTime;
         }
 
-        if (_timer <= 0) {
-            Debug.Log("GAME OVER");
+        if (timer >= maxTime)
+        {
+            _runTimer = false;
         }
+
+        HandleTimerChecks();
     }
 
     public void HoverSubscriber(HoverType hoverType) {
@@ -82,6 +108,97 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void InitializeEventTimes()
+    {
+        if (_disturbances.Count == 0)
+        {
+            return;
+        }
+        _initialized = true;
+
+        for (int i = 0; i < maxTime / 10; i++)
+        {
+            _eventTimeBlocks.Add(new EventBlock());
+        }
+
+        int beforeMonsterIndex = (int)_monsterEventStartTime / 10;
+
+        //prioritize adding the events that MUST occur to the time blocks
+        for (int i = 0; i < _disturbances.Count; i++)
+        {
+            DisturbanceEvent ev = _disturbances[i];
+            if (ev.mustOccur)
+            {
+                int maxIndex = ev.triggerBeforeMonster ? beforeMonsterIndex : _eventTimeBlocks.Count - 1;
+                int randomIndex = Random.Range(1, maxIndex);
+                while (_eventTimeBlocks[randomIndex].hasPropEvent)
+                {
+                    randomIndex = (randomIndex + 1) % maxIndex;
+                }
+                _eventTimeBlocks[randomIndex].hasPropEvent = true;
+                ev.SetTimestamp(Random.Range(0, 10) + (10 * randomIndex));
+            }
+        }
+
+        // add the rest of the prop events
+        for (int i = 0; i < _disturbances.Count; i++)
+        {
+            DisturbanceEvent ev = _disturbances[i];
+            if (!ev.mustOccur)
+            {
+                int maxIndex = ev.triggerBeforeMonster ? beforeMonsterIndex : _eventTimeBlocks.Count - 1;
+                int randomIndex = Random.Range(1, maxIndex);
+                int firstAttemptIndex = randomIndex;
+                bool failed = false;
+                while (((ev.type != DisturbanceType.TV && _eventTimeBlocks[randomIndex].hasPropEvent) || (ev.type == DisturbanceType.TV && _eventTimeBlocks[randomIndex].hasTvEvent)) && !failed)
+                {
+                    int increment = ev.type == DisturbanceType.TV ? 2 : 1;
+                    randomIndex = (randomIndex + 1) % maxIndex;
+
+                    if (randomIndex == firstAttemptIndex)
+                    {
+                        failed = true;
+                    }
+                }
+                if (!failed)
+                {
+                    if (ev.type == DisturbanceType.TV)
+                    {
+                        _eventTimeBlocks[randomIndex].hasTvEvent = true;
+                    }
+                    else
+                    {
+                        _eventTimeBlocks[randomIndex].hasPropEvent = true;
+                    }
+                    ev.SetTimestamp(Random.Range(0, 10) + (10 * randomIndex));
+                }
+            }
+        }
+    }
+
+    private void HandleTimerChecks()
+    {
+        if (!_runTimer)
+        {
+            return;
+        }
+
+        if (timer >= _monsterEventStartTime && !_startMonsterEvent)
+        {
+            _startMonsterEvent = true;
+        }
+        else if (timer >= _mediumEventsStartTime && !_startMediumEvents)
+        {
+            _startMediumEvents = true;
+        }
+        else if (timer >= _eventsStartTime && !_startEvents)
+        {
+            _startEvents = true;
+        }
+    }
+
+
+    // CALLBACKS
     public void ChangeCursorToPen(HoverType hoverType) {
         Cursor.SetCursor(penCursorTexture, Vector2.zero, cursorMode);
     }
@@ -109,8 +226,37 @@ public class GameController : MonoBehaviour
         ChangeGameState(GameState.RUNNING);
     }
 
+    public void PauseGame()
+    {
+        _lastState = state;
+        _lastUiState = uiState;
+        state = GameState.PAUSE;
+        uiState = UIState.PAUSE;
+
+        pauseEvent.Invoke();
+    }
+
     public void UnpauseGame() {
         state = _lastState;
         uiState = _lastUiState;
+
+        unpauseEvent.Invoke();
+    }
+
+    public void AddDisturbanceEvent(DisturbanceEvent e)
+    {
+        _disturbances.Add(e);
+    }
+
+
+    // subscription
+    public void SubsribeToPause(UnityAction action)
+    {
+        pauseEvent.AddListener(action);
+    }
+
+    public void SubscribeToUnpause(UnityAction action)
+    {
+        unpauseEvent.AddListener(action);
     }
 }

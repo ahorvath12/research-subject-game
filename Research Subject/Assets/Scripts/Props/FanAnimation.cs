@@ -18,7 +18,7 @@ public class FanAnimation : MonoBehaviour
 
     void Update()
     {
-        if (off) {
+        if (off || GameController.Instance.state == GameState.PAUSE) {
             return;
         }
 

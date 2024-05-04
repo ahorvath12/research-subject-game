@@ -29,7 +29,7 @@ public class MicManager : MonoBehaviour
         float loudness = GetLoudnessFromMic() * PlayerPrefs.GetFloat("micSensitivity", 100);
 
         if (loudness > threshold) {
-            Debug.Log("detected " + loudness);
+            // Debug.Log("detected " + loudness);
             micTriggerEvent.Invoke();
             icon.color = onColor;
         }

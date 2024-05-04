@@ -101,9 +101,9 @@ public class PSXEffects : MonoBehaviour {
 			rt.filterMode = FilterMode.Point;
 		}
 
-		if (Application.isEditor && !Application.isPlaying) {
+		// if (Application.isEditor && !Application.isPlaying) {
 			UpdateProperties();
-		}
+		// }
 
 		Application.targetFrameRate = limitFramerate;
 

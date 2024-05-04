@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class LightFlicker : MonoBehaviour
 {
-    public Light light;
-    public bool flicker = false;
+    private bool flicker = false;
 
     private float flickerWaitTime;
     private float lastFlickerTime;
@@ -22,6 +21,11 @@ public class LightFlicker : MonoBehaviour
 
     void Update()
     {
+        if (GameController.Instance.state == GameState.PAUSE) {
+            return;
+        }
+        
+        Light light = this.gameObject.GetComponent<Light>();
         if (flicker && !isFlickering && countFlickers <= maxFlickers) {
             isFlickering = true;
             flickerWaitTime = Random.Range(0.05f, 0.2f);
@@ -37,7 +41,7 @@ public class LightFlicker : MonoBehaviour
         }
     }
 
-    private void TriggerLightFlicker() {
+    public void TriggerLightFlicker() {
         flicker = true;
     }
 }
