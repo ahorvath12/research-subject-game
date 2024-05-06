@@ -50,7 +50,7 @@ public class DisturbanceEvent : MonoBehaviour
             }
         }
 
-        GameController.Instance.SubsribeToPause(HandlePause);
+        GameController.Instance.SubscribeToPause(HandlePause);
         GameController.Instance.SubscribeToUnpause(HandleUnpause);
     }
 

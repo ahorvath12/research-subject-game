@@ -75,7 +75,6 @@ public class GameController : MonoBehaviour
 
     void Start() {
         Cursor.SetCursor(defaultCursorTexture, Vector2.zero, cursorMode);
-        Debug.Log(_runTimer);
     }
 
     void Update() {
@@ -271,7 +270,7 @@ public class GameController : MonoBehaviour
 
 
     // subscription
-    public void SubsribeToPause(UnityAction action)
+    public void SubscribeToPause(UnityAction action)
     {
         pauseEvent.AddListener(action);
     }

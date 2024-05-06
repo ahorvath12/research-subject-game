@@ -131,7 +131,6 @@ public class GameGuiManager : MonoBehaviour
     {
         List<FadingUI> fadeList = new List<FadingUI>();
 
-        Debug.Log(GameController.Instance.state);
         if (GameController.Instance.state == GameState.GAME_WIN)
         {
             tvScreen.SetActive(false);

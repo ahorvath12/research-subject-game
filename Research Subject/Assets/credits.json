@@ -42,11 +42,16 @@
                     "link": "https://www.flaticon.com/free-icon/select_636047"
                 }
             ],
-            "shaders": [
+            "effects": [
                 {
                     "name": "PSXEffects",
                     "author": "Triples Axis",
                     "link": "https://assetstore.unity.com/packages/vfx/shaders/psxeffects-132368"
+                },
+                {
+                    "name": "Retro Framerate Controller",
+                    "author": "PixelDough",
+                    "link": "https://pixeldough.itch.io/retro-framerate-controller"
                 }
             ],
             "audio": [
