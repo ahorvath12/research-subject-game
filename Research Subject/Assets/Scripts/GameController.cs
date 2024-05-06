@@ -25,6 +25,7 @@ class EventBlock
 {
     public bool hasPropEvent = false;
     public bool hasTvEvent = false;
+    public bool hasSfxEvent = false;
 }
 
 public class GameController : MonoBehaviour
@@ -159,7 +160,14 @@ public class GameController : MonoBehaviour
                 int randomIndex = Random.Range(1, maxIndex);
                 int firstAttemptIndex = randomIndex;
                 bool failed = false;
-                while (((ev.type != DisturbanceType.TV && _eventTimeBlocks[randomIndex].hasPropEvent) || (ev.type == DisturbanceType.TV && _eventTimeBlocks[randomIndex].hasTvEvent)) && !failed)
+                while (
+                    (
+                        (ev.type != DisturbanceType.TV && ev.type != DisturbanceType.SOUND && _eventTimeBlocks[randomIndex].hasPropEvent) ||
+                        (ev.type == DisturbanceType.TV && _eventTimeBlocks[randomIndex].hasTvEvent) ||
+                        (ev.type == DisturbanceType.SOUND && _eventTimeBlocks[randomIndex].hasSfxEvent)
+
+                    )
+                    && !failed)
                 {
                     int increment = ev.type == DisturbanceType.TV ? 2 : 1;
                     randomIndex = (randomIndex + 1) % maxIndex;
@@ -174,6 +182,10 @@ public class GameController : MonoBehaviour
                     if (ev.type == DisturbanceType.TV)
                     {
                         _eventTimeBlocks[randomIndex].hasTvEvent = true;
+                    }
+                    else if (ev.type == DisturbanceType.SOUND)
+                    {
+                        _eventTimeBlocks[randomIndex].hasSfxEvent = true;
                     }
                     else
                     {

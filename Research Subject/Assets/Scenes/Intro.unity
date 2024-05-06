@@ -4235,6 +4235,9 @@ MonoBehaviour:
   selectCursorTexture: {fileID: 2800000, guid: e48c31e694c88c349a759b219e8b5569, type: 3}
   state: 0
   uiState: 0
+  mainCam: {fileID: 0}
+  gameWinCam: {fileID: 0}
+  gameLoseCam: {fileID: 0}
   pauseEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -5026,7 +5029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Research Subject
+  m_text: Film #039
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e9f45391fe5b02e47a50b6105606cec3, type: 2}
   m_sharedMaterial: {fileID: -1016905590810136031, guid: e9f45391fe5b02e47a50b6105606cec3, type: 2}
@@ -9969,7 +9972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &999075881
 RectTransform:
   m_ObjectHideFlags: 0

@@ -2,12 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DisturbanceLevel
-{
-    SMALL,
-    MEDIUM,
-}
-
 public enum DisturbanceType
 {
     ANIMATION,
@@ -19,7 +13,6 @@ public enum DisturbanceType
 
 public class DisturbanceEvent : MonoBehaviour
 {
-    public DisturbanceLevel level;
     public DisturbanceType type;
     public bool triggerBeforeMonster;
     public int possibleSteps = 1;
@@ -29,6 +22,8 @@ public class DisturbanceEvent : MonoBehaviour
     private Animator animator;
     private List<float> timestamp = new List<float>();
     private bool doneRunning = false;
+
+    private bool wasPlayingAudio = false;
 
     // for tv
     private List<bool> animsPlayed = new List<bool>();
@@ -105,6 +100,7 @@ public class DisturbanceEvent : MonoBehaviour
                 LightFlicker();
                 break;
             case DisturbanceType.SOUND:
+                TriggerAudio();
                 break;
             case DisturbanceType.TV:
                 TriggerTv();
@@ -115,25 +111,18 @@ public class DisturbanceEvent : MonoBehaviour
     private void HandlePause()
     {
         AudioSource audioSource = gameObject.GetComponent<AudioSource>();
+        if (audioSource)
+        {
+            wasPlayingAudio = audioSource.isPlaying;
+            audioSource.Pause();
+        }
         switch (type)
         {
             case DisturbanceType.ANIMATION:
                 animator.speed = 0;
                 break;
-            case DisturbanceType.SOUND:
-                if (audioSource)
-                {
-                    audioSource.Pause();
-                }
-                break;
             case DisturbanceType.TV:
                 animator.speed = 0;
-                break;
-            case DisturbanceType.FAN:
-                if (audioSource)
-                {
-                    audioSource.Pause();
-                }
                 break;
         }
     }
@@ -141,25 +130,18 @@ public class DisturbanceEvent : MonoBehaviour
     private void HandleUnpause()
     {
         AudioSource audioSource = gameObject.GetComponent<AudioSource>();
+        if (audioSource && wasPlayingAudio)
+        {
+            audioSource.Play();
+        }
+
         switch (type)
         {
             case DisturbanceType.ANIMATION:
                 animator.speed = 1;
                 break;
-            case DisturbanceType.SOUND:
-                if (audioSource)
-                {
-                    audioSource.Play();
-                }
-                break;
             case DisturbanceType.TV:
                 animator.speed = 1;
-                break;
-            case DisturbanceType.FAN:
-                if (audioSource)
-                {
-                    audioSource.Play();
-                }
                 break;
         }
     }
@@ -173,6 +155,15 @@ public class DisturbanceEvent : MonoBehaviour
     {
         LightFlicker light = this.gameObject.GetComponent<LightFlicker>();
         light.TriggerLightFlicker();
+    }
+
+    private void TriggerAudio()
+    {
+        AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
+        if (audioSource)
+        {
+            audioSource.Play();
+        }
     }
 
     private void TriggerTv()
