@@ -2314,6 +2314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602b1afc1e2a0d0488d539f1632ce5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objToEnable: {fileID: 0}
   nextAnimatorToEnable: {fileID: 0}
 --- !u!95 &195383803
 Animator:
@@ -4278,6 +4279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602b1afc1e2a0d0488d539f1632ce5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objToEnable: {fileID: 0}
   nextAnimatorToEnable: {fileID: 0}
 --- !u!82 &322535276
 AudioSource:
@@ -5575,6 +5577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602b1afc1e2a0d0488d539f1632ce5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objToEnable: {fileID: 0}
   nextAnimatorToEnable: {fileID: 0}
 --- !u!95 &462128231
 Animator:
@@ -6970,6 +6973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 602b1afc1e2a0d0488d539f1632ce5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objToEnable: {fileID: 0}
   nextAnimatorToEnable: {fileID: 0}
 --- !u!95 &663215356
 Animator:
@@ -9972,7 +9976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &999075881
 RectTransform:
   m_ObjectHideFlags: 0

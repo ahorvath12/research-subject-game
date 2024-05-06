@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimationEventHandler : MonoBehaviour
 {
-
+    public GameObject objToEnable;
     public Animator nextAnimatorToEnable;
 
     public void ChangeGameState(GameState newState) {
@@ -31,5 +31,9 @@ public class AnimationEventHandler : MonoBehaviour
 
         audioSource.clip = clip;
         audioSource.Play();
+    }
+
+    public void EnableObj() {
+        objToEnable.SetActive(true);
     }
 }

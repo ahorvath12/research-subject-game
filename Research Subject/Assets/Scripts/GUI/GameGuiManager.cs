@@ -24,6 +24,9 @@ public class GameGuiManager : MonoBehaviour
     public GameObject mainGameUI;
     public GameObject surveyUI;
 
+    [Header("Other")]
+    public GameObject tvScreen;
+
     private GameController _gameController;
     private UIState _state;
 
@@ -131,6 +134,7 @@ public class GameGuiManager : MonoBehaviour
         Debug.Log(GameController.Instance.state);
         if (GameController.Instance.state == GameState.GAME_WIN)
         {
+            tvScreen.SetActive(false);
             fadeList.Add(new FadingUI(blackPanel, 1, _gameController.ChangeCamera, 0.5f));
             fadeList.Add(new FadingUI(blackPanel, 0));
             fadeList.Add(new FadingUI(gameWinUI, 1, null, 1));
@@ -144,6 +148,6 @@ public class GameGuiManager : MonoBehaviour
             fadeList.Add(new FadingUI(gameLoseButton, 1));
         }
 
-        fadeManager.QueueFade(fadeList);
+        fadeManager.QueueFade(fadeList, 1);
     }
 }
