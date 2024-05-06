@@ -9,12 +9,15 @@ public enum UIState {
     VIEW_ROOM,
     START_VIEW_SURVEY,
     VIEW_SURVEY,
+    GAME_END,
     PAUSE,
 }
 
 public enum GameState {
     NOT_STARTED,
     RUNNING,
+    GAME_WIN,
+    GAME_LOSE,
     PAUSE,
 }
 
@@ -41,7 +44,10 @@ public class GameController : MonoBehaviour
     private UIState _lastUiState;
 
     [Header("Other")]
-    public UnityEvent pauseEvent, unpauseEvent;
+    public GameObject mainCam;
+    public GameObject gameWinCam;
+    public GameObject gameLoseCam;
+    [HideInInspector] public UnityEvent pauseEvent, unpauseEvent;
 
     [Header("Debugging")]
     [SerializeField]
@@ -68,6 +74,7 @@ public class GameController : MonoBehaviour
 
     void Start() {
         Cursor.SetCursor(defaultCursorTexture, Vector2.zero, cursorMode);
+        Debug.Log(_runTimer);
     }
 
     void Update() {
@@ -82,7 +89,7 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) {
             PauseGame();
         }
-        
+
         if (_runTimer) {
             timer += Time.deltaTime;
         }
@@ -90,6 +97,8 @@ public class GameController : MonoBehaviour
         if (timer >= maxTime)
         {
             _runTimer = false;
+            state = GameState.GAME_WIN;
+            uiState = UIState.GAME_END;
         }
 
         HandleTimerChecks();
@@ -258,5 +267,19 @@ public class GameController : MonoBehaviour
     public void SubscribeToUnpause(UnityAction action)
     {
         unpauseEvent.AddListener(action);
+    }
+
+    public void ChangeCamera()
+    {
+        if (state == GameState.GAME_WIN)
+        {
+            mainCam.SetActive(false);
+            gameWinCam.SetActive(true);
+        }
+        else if (state == GameState.GAME_LOSE)
+        {
+            mainCam.SetActive(false);
+            gameLoseCam.SetActive(true);
+        }
     }
 }

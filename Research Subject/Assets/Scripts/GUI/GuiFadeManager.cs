@@ -25,9 +25,8 @@ public class GuiFadeManager : MonoBehaviour
     [SerializeField] private float lerpStep = 5;
     private float waitTimer = 0f;
 
-    void Awake() {
-        DontDestroyOnLoad(this.gameObject);
-        
+    void Awake()
+    {
         if (Instance == null || Instance != this) {
             Instance = this;
         }

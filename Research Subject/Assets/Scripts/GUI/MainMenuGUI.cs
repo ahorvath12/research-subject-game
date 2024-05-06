@@ -26,14 +26,13 @@ public class MainMenuGUI : MonoBehaviour
 
     [Header("Other")]
     public GameObject player;
+    public GameObject mainCamera;
+    public GameObject loadingCamera;
 
     private int signatures = 0;
     public GameObject formContinueButton;
-    private bool canShowContinueButton;
 
     private GuiFadeManager fadeManager;
-
-    private bool activateGameScene = false;
 
     void Awake() {
         if (Instance == null || Instance != this) {
@@ -57,22 +56,24 @@ public class MainMenuGUI : MonoBehaviour
 
     private void HandleState() {
         switch(this.state) {
-            case MainMenuState.INTRO: 
-                fadeManager.QueueFade(new List<FadingUI>{new FadingUI(intro, 1, StartLoadScene)}, 0.25f);
+            case MainMenuState.INTRO:
+                fadeManager.QueueFade(new List<FadingUI> { new FadingUI(intro, 1) }, 0.25f);
                 break;
             default:
                 break;
         }
     }
 
-    public void LoadGame() {
+    public void ShowForm()
+    {
         float timer = 0.25f;
         fadeManager.QueueFade(new List<FadingUI>{new FadingUI(mainMenu, 0)}, timer);
         StartCoroutine(WaitAndAnimatePlayer(timer * 2));
     }
 
-    public void StartGame() {
-        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 1, ChangeScene)});
+    public void LoadGame()
+    {
+        fadeManager.QueueFade(new List<FadingUI> { new FadingUI(intro, 0), new FadingUI(blackPanel, 1, ChangeCameraAndLoadScene) });
     }
 
     public void OpenSettings() {
@@ -110,13 +111,16 @@ public class MainMenuGUI : MonoBehaviour
     }
 
 
-    // ACTIONS
-    public void StartLoadScene() {
-        StartCoroutine(LoadSceneAsync());
+    private void ChangeCameraAndLoadScene()
+    {
+        mainCamera.SetActive(false);
+        loadingCamera.SetActive(true);
+        fadeManager.QueueFade(new List<FadingUI> { new FadingUI(blackPanel, 0, StartLoadScene) }, 0.3f);
     }
 
-    public void ChangeScene() {
-        activateGameScene = true;
+    private void StartLoadScene()
+    {
+        StartCoroutine(LoadSceneAsync());
     }
 
     // SCENE FUNCTIONALITY
@@ -130,11 +134,8 @@ public class MainMenuGUI : MonoBehaviour
         {
             if (asyncOperation.progress >= 0.9f)
             {
-                canShowContinueButton = true;
-                if (activateGameScene) {
-                    yield return new WaitForSeconds(1);
-                    asyncOperation.allowSceneActivation = true;
-                }
+                yield return new WaitForSeconds(1);
+                asyncOperation.allowSceneActivation = true;
             }
 
             yield return null;

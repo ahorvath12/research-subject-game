@@ -14,6 +14,12 @@ public class GameGuiManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject settingsMenu;
 
+    [Header("Game End UI")]
+    public CanvasGroup gameWinUI;
+    public CanvasGroup gameWinButton;
+    public CanvasGroup gameLoseUI;
+    public CanvasGroup gameLoseButton;
+
     [Header("Arrow Groups")]
     public GameObject mainGameUI;
     public GameObject surveyUI;
@@ -62,6 +68,11 @@ public class GameGuiManager : MonoBehaviour
                     mainUI.SetActive(false);
                     pauseUI.SetActive(true);
                     break;
+                case UIState.GAME_END:
+                    mainUI.SetActive(false);
+                    surveyUI.SetActive(false);
+                    HandleGameEnd();
+                    break;
                 default:
                     break;
             }
@@ -99,10 +110,40 @@ public class GameGuiManager : MonoBehaviour
     }
 
     public void ReturnToMenu() {
-        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 1, LoadMenuScene)}, 0.25f);
+        List<FadingUI> fadeList = new List<FadingUI>();
+        if (_state == UIState.GAME_END)
+        {
+            fadeList.Add(new FadingUI(gameWinUI, 0));
+            fadeList.Add(new FadingUI(gameLoseUI, 0));
+        }
+        fadeList.Add(new FadingUI(blackPanel, 1, LoadMenuScene));
+        fadeManager.QueueFade(fadeList, 0.25f);
     }
 
     private void LoadMenuScene() {
         SceneManager.LoadScene(0);
+    }
+
+    private void HandleGameEnd()
+    {
+        List<FadingUI> fadeList = new List<FadingUI>();
+
+        Debug.Log(GameController.Instance.state);
+        if (GameController.Instance.state == GameState.GAME_WIN)
+        {
+            fadeList.Add(new FadingUI(blackPanel, 1, _gameController.ChangeCamera, 0.5f));
+            fadeList.Add(new FadingUI(blackPanel, 0));
+            fadeList.Add(new FadingUI(gameWinUI, 1, null, 1));
+            fadeList.Add(new FadingUI(gameWinButton, 1));
+        }
+        else
+        {
+            fadeList.Add(new FadingUI(blackPanel, 1, _gameController.ChangeCamera, 0.5f));
+            fadeList.Add(new FadingUI(blackPanel, 0));
+            fadeList.Add(new FadingUI(gameLoseUI, 1, null, 1));
+            fadeList.Add(new FadingUI(gameLoseButton, 1));
+        }
+
+        fadeManager.QueueFade(fadeList);
     }
 }

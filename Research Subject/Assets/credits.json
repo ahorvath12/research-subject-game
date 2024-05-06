@@ -51,6 +51,11 @@
             ],
             "audio": [
                 {  
+                    "name": "60_VHS_casette_out.wav",
+                    "author": "PanZen",
+                    "link": "https://freesound.org/people/PanZen/sounds/216765/"
+                },
+                {
                     "name": "Ceiling Fan (Indoor).wav",
                     "author": "embracetheart",
                     "link": "https://freesound.org/people/embracetheart/sounds/345230/"
@@ -69,6 +74,11 @@
                     "name": "Mouse 1 Button Long Click",
                     "author": "aphom000",
                     "link": "https://freesound.org/people/aphom000/sounds/687106/"
+                },
+                {
+                    "name": "paper_fingerslidenoise.wav",
+                    "author": "matucha",
+                    "link": "https://freesound.org/people/matucha/sounds/115132/"
                 },
                 {
                     "name": "Pink noise",
