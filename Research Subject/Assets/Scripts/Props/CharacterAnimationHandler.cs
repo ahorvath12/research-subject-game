@@ -9,7 +9,8 @@ public enum CharacterAnimStates
     DEFAULT,
     IDLE,
     WALKING,
-    TALKING
+    TALKING,
+    LOOKING
 }
 
 [Serializable]
@@ -51,8 +52,9 @@ public class CharacterAnimationHandler : MonoBehaviour
         {
             return;
         }
-        if (_animIndex > animData.Count)
+        if (_animIndex >= animData.Count || _nextAnimIndex >= animData.Count)
         {
+            this.gameObject.SetActive(false);
             return;
         }
 
@@ -83,6 +85,7 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     void HandleNextAnimation()
     {
+        Debug.Log(_animIndex + " " + this.gameObject.name);
         _animator.SetInteger("state", (int)animData[_animIndex].state);
         Vector3 currRotation = this.gameObject.transform.eulerAngles;
         this.gameObject.transform.eulerAngles = new Vector3(currRotation.x, animData[_animIndex].targetYRot, currRotation.z);
