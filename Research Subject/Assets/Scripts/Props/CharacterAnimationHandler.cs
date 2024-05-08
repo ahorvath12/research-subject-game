@@ -10,7 +10,8 @@ public enum CharacterAnimStates
     IDLE,
     WALKING,
     TALKING,
-    LOOKING
+    LOOKING,
+    RUNNING,
 }
 
 [Serializable]
