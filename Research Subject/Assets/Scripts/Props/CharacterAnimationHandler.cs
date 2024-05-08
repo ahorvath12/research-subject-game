@@ -85,7 +85,6 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     void HandleNextAnimation()
     {
-        Debug.Log(_animIndex + " " + this.gameObject.name);
         _animator.SetInteger("state", (int)animData[_animIndex].state);
         Vector3 currRotation = this.gameObject.transform.eulerAngles;
         this.gameObject.transform.eulerAngles = new Vector3(currRotation.x, animData[_animIndex].targetYRot, currRotation.z);
