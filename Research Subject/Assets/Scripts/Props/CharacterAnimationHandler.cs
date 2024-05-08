@@ -32,6 +32,9 @@ public class CharacterAnimationHandler : MonoBehaviour
     private int _nextAnimIndex = 0;
     private float _timer = 0;
     private float _currentWaitTimer = 0;
+    private float _moveTime = 0;
+
+    private Vector3 _initialPos;
 
     private Animator _animator;
 
@@ -71,10 +74,11 @@ public class CharacterAnimationHandler : MonoBehaviour
             HandleNextAnimation();
         }
 
+        _moveTime += Time.deltaTime * animData[_animIndex].movementSpeed;
         Vector3 targetPos = animData[_animIndex].targetPos;
-        this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, targetPos, animData[_animIndex].movementSpeed * Time.deltaTime);
+        this.gameObject.transform.position = Vector3.Lerp(_initialPos, targetPos, _moveTime);
 
-        if (Vector3.Distance(this.gameObject.transform.position, targetPos) <= 0.5f)
+        if (Vector3.Distance(this.gameObject.transform.position, targetPos) <= 0.1f)
         {
             this.gameObject.transform.position = targetPos;
 
@@ -85,9 +89,11 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     void HandleNextAnimation()
     {
+        _initialPos = this.gameObject.transform.position;
         _animator.SetInteger("state", (int)animData[_animIndex].state);
         Vector3 currRotation = this.gameObject.transform.eulerAngles;
         this.gameObject.transform.eulerAngles = new Vector3(currRotation.x, animData[_animIndex].targetYRot, currRotation.z);
+        _moveTime = 0;
     }
 
     void PauseAction()
