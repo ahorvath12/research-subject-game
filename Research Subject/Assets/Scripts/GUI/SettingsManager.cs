@@ -22,11 +22,21 @@ public class SettingsManager : MonoBehaviour
     void Start()
     {
         UpdateMicList();
+
+        micSlider.value = PlayerPrefs.GetFloat("micSensitivity", 0.5f);
+
+        if (volumeSlider)
+        {
+            volumeSlider.value = PlayerPrefs.GetFloat("volume", 0);
+        }
     }
 
     void Update() {
         if (_micListCount != Microphone.devices.Length) {
             UpdateMicList();
+        }
+        if (PlayerPrefs.GetFloat("micSensitivity") != micSlider.value) {
+            micSlider.value = PlayerPrefs.GetFloat("micSensitivity");
         }
     }
 
@@ -35,14 +45,6 @@ public class SettingsManager : MonoBehaviour
         micDropdown.ClearOptions();
         micDropdown.AddOptions(new List<string>(micList));
         micDropdown.value = PlayerPrefs.GetInt("micIndex", 0);
-
-        micSlider.value = PlayerPrefs.GetFloat("micSensitivity", 0.5f);
-
-        if (volumeSlider)
-        {
-            volumeSlider.value = PlayerPrefs.GetFloat("volume", 0);
-        }
-
         _micListCount = micList.Length;
     }
 
@@ -51,6 +53,7 @@ public class SettingsManager : MonoBehaviour
     }
 
     public void UpdateMicSensitivity() {
+        Debug.Log(micSlider.value);
         PlayerPrefs.SetFloat("micSensitivity", micSlider.value);
     }
 

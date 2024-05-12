@@ -50,7 +50,14 @@ public class MainMenuGUI : MonoBehaviour
     void Start() {
         fadeManager = GuiFadeManager.Instance;
 
-        fadeManager.QueueFade(new List<FadingUI> { new FadingUI(introText, 1, null, 1f), new FadingUI(introMicSettings, 1, null, 1), new FadingUI(introConfirmButton, 1) });
+        if (!IntroStateManager.Instance.skipIntroSettings)
+        {
+            fadeManager.QueueFade(new List<FadingUI> { new FadingUI(introText, 1, null, 1f), new FadingUI(introMicSettings, 1, null, 1), new FadingUI(introConfirmButton, 1) });
+        }
+        else
+        {
+            fadeManager.QueueFade(new List<FadingUI> { new FadingUI(blackPanel, 0) });
+        }
     }
 
     private void Update() {
@@ -79,6 +86,8 @@ public class MainMenuGUI : MonoBehaviour
         fadingList.Add(new FadingUI(introHeadphonesText, 0, null, 0.5f));
         fadingList.Add(new FadingUI(blackPanel, 0));
         fadeManager.QueueFade(fadingList);
+
+        IntroStateManager.Instance.skipIntroSettings = true;
     }
 
     public void ShowForm()

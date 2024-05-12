@@ -29,6 +29,7 @@ public class MicManager : MonoBehaviour
     {
         float loudness = GetLoudnessFromMic() * PlayerPrefs.GetFloat("micSensitivity", 100);
 
+        // Debug.Log(GetLoudnessFromMic());
         if (loudness > threshold)
         {
             foreach (Image icon in icons)
