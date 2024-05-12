@@ -9,6 +9,7 @@ public class MicManager : MonoBehaviour
     public int sampleWindow = 64;
     public float loudnessSensitivity = 100;
     public float threshold = 0.5f;
+    private float _prevLoudness = 0;
 
     private AudioClip microphoneClip;
 
@@ -17,7 +18,7 @@ public class MicManager : MonoBehaviour
     public Color offColor;
     public Color onColor;
 
-    public UnityEvent micTriggerEvent;
+    public UnityEvent newMicActivityEvent, quietMicEvent;
     
     void Start()
     {
@@ -28,14 +29,24 @@ public class MicManager : MonoBehaviour
     {
         float loudness = GetLoudnessFromMic() * PlayerPrefs.GetFloat("micSensitivity", 100);
 
-        if (loudness > threshold) {
-            // Debug.Log("detected " + loudness);
-            micTriggerEvent.Invoke();
+        if (loudness > threshold)
+        {
             icon.color = onColor;
+
+            if (_prevLoudness <= threshold)
+            {
+                newMicActivityEvent.Invoke();
+            }
         }
         else {
             icon.color = offColor;
+
+            if (_prevLoudness > threshold)
+            {
+                quietMicEvent.Invoke();
+            }
         }
+        _prevLoudness = loudness;
     }
 
     public void MicrophoneToAudioClip() {

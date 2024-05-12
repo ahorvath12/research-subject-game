@@ -58,8 +58,8 @@ public class GameController : MonoBehaviour
 
     private float _eventsStartTime = 10;
     private float _mediumEventsStartTime = 30;
-    private float _monsterEventStartTime = 50;
-    private bool _startEvents, _startMediumEvents, _startMonsterEvent;
+    private bool _startEvents, _startMediumEvents;
+    [HideInInspector] public float monsterStartTime = 52;
 
     private List<DisturbanceEvent> _disturbances = new List<DisturbanceEvent>();
     private List<EventBlock> _eventTimeBlocks = new List<EventBlock>();
@@ -130,7 +130,7 @@ public class GameController : MonoBehaviour
             _eventTimeBlocks.Add(new EventBlock());
         }
 
-        int beforeMonsterIndex = (int)_monsterEventStartTime / 10;
+        int beforeMonsterIndex = (int)monsterStartTime / 10;
 
         //prioritize adding the events that MUST occur to the time blocks
         for (int i = 0; i < _disturbances.Count; i++)
@@ -170,6 +170,10 @@ public class GameController : MonoBehaviour
                 {
                     int increment = ev.type == DisturbanceType.TV ? 2 : 1;
                     randomIndex = (randomIndex + 1) % maxIndex;
+                    if (randomIndex == 0)
+                    {
+                        randomIndex++;
+                    }
 
                     if (randomIndex == firstAttemptIndex)
                     {
@@ -203,11 +207,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        if (timer >= _monsterEventStartTime && !_startMonsterEvent)
-        {
-            _startMonsterEvent = true;
-        }
-        else if (timer >= _mediumEventsStartTime && !_startMediumEvents)
+        if (timer >= _mediumEventsStartTime && !_startMediumEvents)
         {
             _startMediumEvents = true;
         }
