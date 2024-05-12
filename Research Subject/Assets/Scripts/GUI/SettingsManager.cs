@@ -37,7 +37,11 @@ public class SettingsManager : MonoBehaviour
         micDropdown.value = PlayerPrefs.GetInt("micIndex", 0);
 
         micSlider.value = PlayerPrefs.GetFloat("micSensitivity", 0.5f);
-        volumeSlider.value = PlayerPrefs.GetFloat("micSensitivity", 0);
+
+        if (volumeSlider)
+        {
+            volumeSlider.value = PlayerPrefs.GetFloat("volume", 0);
+        }
 
         _micListCount = micList.Length;
     }

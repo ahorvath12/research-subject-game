@@ -38,6 +38,14 @@ public class Monster : MonoBehaviour
             return;
         }
 
+        if (gameController.timer >= gameController.maxTime - 5)
+        {
+            _animator.applyRootMotion = true;
+            _animator.SetBool("end", true);
+            _animator.SetInteger("step", 0);
+            _animator.SetInteger("scare", 0);
+        }
+
         HandleAnimation();
 
         Debug.Log(_noiseLevel);

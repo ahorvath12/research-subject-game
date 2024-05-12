@@ -53,7 +53,7 @@ public class GameController : MonoBehaviour
     [Header("Debugging")]
     [SerializeField]
     private bool _runTimer = false;
-    private float maxTime = 120;
+    [HideInInspector] public float maxTime = 120;
     public float timer = 0;
 
     private float _eventsStartTime = 10;

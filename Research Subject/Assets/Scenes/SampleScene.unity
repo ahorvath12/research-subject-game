@@ -4064,7 +4064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.18.4 - version ahead?!
   sections: 01010101
-  customRes: {x: 1112, y: 646}
+  customRes: {x: 1019, y: 559}
   resolutionFactor: 1
   limitFramerate: -1
   skipFrames: 0
@@ -6906,6 +6906,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _runTimer: 1
+  maxTime: 120
   timer: 0
   monsterStartTime: 52
 --- !u!4 &671209764
@@ -9640,7 +9641,7 @@ MonoBehaviour:
   sampleWindow: 64
   loudnessSensitivity: 100
   threshold: 0.5
-  icon: {fileID: 1091077675}
+  icons: []
   offColor: {r: 0, g: 0, b: 0, a: 1}
   onColor: {r: 1, g: 1, b: 1, a: 1}
   newMicActivityEvent:
@@ -17617,7 +17618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.18.4 - version ahead?!
   sections: 01010100
-  customRes: {x: 1112, y: 646}
+  customRes: {x: 1019, y: 559}
   resolutionFactor: 1
   limitFramerate: -1
   skipFrames: 0
@@ -23260,7 +23261,9 @@ MonoBehaviour:
   sampleWindow: 64
   loudnessSensitivity: 100
   threshold: 0.3
-  icon: {fileID: 458376914}
+  icons:
+  - {fileID: 458376914}
+  - {fileID: 1091077675}
   offColor: {r: 0.011764706, g: 0, b: 0.08627451, a: 1}
   onColor: {r: 1, g: 1, b: 1, a: 0.7058824}
   newMicActivityEvent:

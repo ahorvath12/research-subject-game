@@ -17,6 +17,13 @@ public class MainMenuGUI : MonoBehaviour
     public static MainMenuGUI Instance { get; private set; }
     public MainMenuState state = MainMenuState.MAIN;
 
+    [Header("IntroScreens")]
+    public CanvasGroup introGroup;
+    public CanvasGroup introText;
+    public CanvasGroup introMicSettings;
+    public CanvasGroup introConfirmButton;
+    public CanvasGroup introHeadphonesText;
+
     [Header("MenuPanels")]
     public CanvasGroup mainMenu;
     public CanvasGroup intro;
@@ -43,7 +50,7 @@ public class MainMenuGUI : MonoBehaviour
     void Start() {
         fadeManager = GuiFadeManager.Instance;
 
-        fadeManager.QueueFade(new List<FadingUI>{new FadingUI(blackPanel, 0)});
+        fadeManager.QueueFade(new List<FadingUI> { new FadingUI(introText, 1, null, 1f), new FadingUI(introMicSettings, 1, null, 1), new FadingUI(introConfirmButton, 1) });
     }
 
     private void Update() {
@@ -62,6 +69,16 @@ public class MainMenuGUI : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void ShowMainMenu()
+    {
+        List<FadingUI> fadingList = new List<FadingUI>();
+        fadingList.Add(new FadingUI(introGroup, 0, null, 0.25f));
+        fadingList.Add(new FadingUI(introHeadphonesText, 1, null, 2));
+        fadingList.Add(new FadingUI(introHeadphonesText, 0, null, 0.5f));
+        fadingList.Add(new FadingUI(blackPanel, 0));
+        fadeManager.QueueFade(fadingList);
     }
 
     public void ShowForm()

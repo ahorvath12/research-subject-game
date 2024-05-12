@@ -14,7 +14,7 @@ public class MicManager : MonoBehaviour
     private AudioClip microphoneClip;
 
     [Header("Mic UI")]
-    public Image icon;
+    public List<Image> icons = new List<Image>();
     public Color offColor;
     public Color onColor;
 
@@ -31,7 +31,10 @@ public class MicManager : MonoBehaviour
 
         if (loudness > threshold)
         {
-            icon.color = onColor;
+            foreach (Image icon in icons)
+            {
+                icon.color = onColor;
+            }
 
             if (_prevLoudness <= threshold)
             {
@@ -39,7 +42,10 @@ public class MicManager : MonoBehaviour
             }
         }
         else {
-            icon.color = offColor;
+            foreach (Image icon in icons)
+            {
+                icon.color = offColor;
+            }
 
             if (_prevLoudness > threshold)
             {
