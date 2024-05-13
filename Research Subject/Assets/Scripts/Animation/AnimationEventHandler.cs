@@ -7,6 +7,16 @@ public class AnimationEventHandler : MonoBehaviour
     public GameObject objToEnable;
     public Animator nextAnimatorToEnable;
 
+    private bool audioWasPlaying;
+
+    private void Start()
+    {
+        GameController gameController = GameController.Instance;
+
+        gameController.SubscribeToPause(PauseAction);
+        gameController.SubscribeToUnpause(UnpauseAction);
+    }
+
     public void ChangeGameState(GameState newState) {
         GameController.Instance.ChangeGameState(newState);
     }
@@ -35,5 +45,30 @@ public class AnimationEventHandler : MonoBehaviour
 
     public void EnableObj() {
         objToEnable.SetActive(true);
+    }
+
+    private void PauseAction()
+    {
+        AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
+        if (audioSource && audioSource.isPlaying)
+        {
+            audioWasPlaying = true;
+            audioSource.Pause();
+        }
+
+        Animator animator = this.gameObject.GetComponent<Animator>();
+        animator.speed = 0;
+    }
+
+    private void UnpauseAction()
+    {
+        AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
+        if (audioSource && audioWasPlaying)
+        {
+            audioSource.Play();
+        }
+
+        Animator animator = this.gameObject.GetComponent<Animator>();
+        animator.speed = 1;
     }
 }

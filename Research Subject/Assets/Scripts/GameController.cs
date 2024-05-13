@@ -78,17 +78,22 @@ public class GameController : MonoBehaviour
     }
 
     void Update() {
+
         if (state == GameState.NOT_STARTED && !_initialized)
         {
             InitializeEventTimes();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && state != GameState.PAUSE)
+        {
+            PauseGame();
+            return;
+        }
+
         if (state != GameState.RUNNING) {
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            PauseGame();
-        }
 
         if (_runTimer) {
             timer += Time.deltaTime;

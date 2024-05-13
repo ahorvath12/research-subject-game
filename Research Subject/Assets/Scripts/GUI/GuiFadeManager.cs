@@ -34,6 +34,10 @@ public class GuiFadeManager : MonoBehaviour
 
     void Update()
     {
+        if (GameController.Instance.state == GameState.PAUSE)
+        {
+            return;
+        }
         
         if (waitTimer > 0) {
             waitTimer -= Time.deltaTime;

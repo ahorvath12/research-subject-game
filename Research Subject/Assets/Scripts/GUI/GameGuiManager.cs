@@ -47,9 +47,10 @@ public class GameGuiManager : MonoBehaviour
     {
         
         if (_state != _gameController.uiState) {
-            if (_state == UIState.PAUSE) {
-                mainUI.SetActive(true);
+            if (_state == UIState.PAUSE)
+            {
                 pauseUI.SetActive(false);
+                mainUI.SetActive(true);
             }
             _state = _gameController.uiState;
 

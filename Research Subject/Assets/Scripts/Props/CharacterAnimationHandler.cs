@@ -99,11 +99,11 @@ public class CharacterAnimationHandler : MonoBehaviour
 
     void PauseAction()
     {
-        _animator.playbackTime = 0;
+        _animator.speed = 0;
     }
 
     void UnpauseAction()
     {
-        _animator.playbackTime = 1;
+        _animator.speed = 1;
     }
 }
