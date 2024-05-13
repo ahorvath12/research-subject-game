@@ -65,6 +65,7 @@ public class AnimationEventHandler : MonoBehaviour
         AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
         if (audioSource && audioWasPlaying)
         {
+            audioWasPlaying = false;
             audioSource.Play();
         }
 

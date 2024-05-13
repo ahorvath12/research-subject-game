@@ -23,12 +23,15 @@ public class SettingsManager : MonoBehaviour
     {
         UpdateMicList();
 
-        micSlider.value = PlayerPrefs.GetFloat("micSensitivity", 0.5f);
+        micSlider.maxValue = 300;
+        micSlider.value = PlayerPrefs.GetFloat("micSensitivity", micSlider.maxValue / 2);
+        Debug.Log(micSlider.value);
 
         if (volumeSlider)
         {
             volumeSlider.value = PlayerPrefs.GetFloat("volume", 0);
         }
+
     }
 
     void Update() {
@@ -52,8 +55,8 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetInt("micIndex", micDropdown.value);
     }
 
-    public void UpdateMicSensitivity() {
-        Debug.Log(micSlider.value);
+    public void UpdateMicSensitivity()
+    {
         PlayerPrefs.SetFloat("micSensitivity", micSlider.value);
     }
 

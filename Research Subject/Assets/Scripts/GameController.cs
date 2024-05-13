@@ -145,11 +145,23 @@ public class GameController : MonoBehaviour
             {
                 int maxIndex = ev.triggerBeforeMonster ? beforeMonsterIndex : _eventTimeBlocks.Count - 1;
                 int randomIndex = Random.Range(1, maxIndex);
-                while (_eventTimeBlocks[randomIndex].hasPropEvent)
+                while ((ev.type != DisturbanceType.TV && ev.type != DisturbanceType.SOUND && _eventTimeBlocks[randomIndex].hasPropEvent) ||
+                        (ev.type == DisturbanceType.SOUND && _eventTimeBlocks[randomIndex].hasSfxEvent))
                 {
                     randomIndex = (randomIndex + 1) % maxIndex;
+                    if (randomIndex == 0)
+                    {
+                        randomIndex++;
+                    }
                 }
-                _eventTimeBlocks[randomIndex].hasPropEvent = true;
+                if (ev.type == DisturbanceType.SOUND)
+                {
+                    _eventTimeBlocks[randomIndex].hasSfxEvent = true;
+                }
+                else
+                {
+                    _eventTimeBlocks[randomIndex].hasPropEvent = true;
+                }
                 ev.SetTimestamp(Random.Range(0, 10) + (10 * randomIndex));
             }
         }

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class MicManager : MonoBehaviour
 {
+    public AudioSource source;
     public int sampleWindow = 64;
-    public float loudnessSensitivity = 100;
     public float threshold = 0.5f;
     private float _prevLoudness = 0;
 
@@ -18,6 +18,8 @@ public class MicManager : MonoBehaviour
     public Color offColor;
     public Color onColor;
 
+    private int micIndex;
+
     public UnityEvent newMicActivityEvent, quietMicEvent;
     
     void Start()
@@ -27,11 +29,17 @@ public class MicManager : MonoBehaviour
 
     void Update()
     {
-        float loudness = GetLoudnessFromMic() * PlayerPrefs.GetFloat("micSensitivity", 100);
+        if (micIndex != PlayerPrefs.GetInt("micIndex", 0))
+        {
+            Microphone.End(Microphone.devices[micIndex]);
+            MicrophoneToAudioClip();
+        }
 
-        // Debug.Log(GetLoudnessFromMic());
+        float loudness = GetLoudnessFromMic() * PlayerPrefs.GetFloat("micSensitivity", 150);
+
         if (loudness > threshold)
         {
+            // Debug.Log("on " + loudness);
             foreach (Image icon in icons)
             {
                 icon.color = onColor;
@@ -43,6 +51,7 @@ public class MicManager : MonoBehaviour
             }
         }
         else {
+            // Debug.Log("off " + loudness);
             foreach (Image icon in icons)
             {
                 icon.color = offColor;
@@ -57,8 +66,11 @@ public class MicManager : MonoBehaviour
     }
 
     public void MicrophoneToAudioClip() {
-        string microphoneName = Microphone.devices[PlayerPrefs.GetInt("micIndex", 0)];
+        micIndex = PlayerPrefs.GetInt("micIndex", 0);
+        string microphoneName = Microphone.devices[micIndex];
         microphoneClip = Microphone.Start(microphoneName, true, 20, AudioSettings.outputSampleRate);
+        source.clip = microphoneClip;
+        Debug.Log("set clip");
     }
 
     public float GetLoudnessFromMic() {
@@ -78,6 +90,10 @@ public class MicManager : MonoBehaviour
             totalLoudness += Mathf.Abs(waveData[i]);
         }
 
+        if (totalLoudness / sampleWindow == 0)
+        {
+            Debug.Log(totalLoudness + " " + sampleWindow + " " + Microphone.devices[PlayerPrefs.GetInt("micIndex", 0)] + PlayerPrefs.GetFloat("micSensitivity", 250));
+        }
         return totalLoudness / sampleWindow;
     }
  }

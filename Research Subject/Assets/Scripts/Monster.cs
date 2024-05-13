@@ -40,10 +40,10 @@ public class Monster : MonoBehaviour
 
         if (gameController.timer >= gameController.maxTime - 5)
         {
-            _animator.applyRootMotion = true;
             _animator.SetBool("end", true);
             _animator.SetInteger("step", 0);
             _animator.SetInteger("scare", 0);
+            return;
         }
 
         HandleAnimation();
@@ -76,7 +76,7 @@ public class Monster : MonoBehaviour
         _step++;
 
         _animator.SetInteger("step", _step);
-        _stepTimer = Random.Range(2, 5);
+        _stepTimer = Random.Range(3, 5);
     }
 
     // NOISE FUNCTIONS
