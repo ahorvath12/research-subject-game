@@ -17530,7 +17530,7 @@ MonoBehaviour:
   sections: 01010100
   customRes: {x: 1141, y: 642}
   resolutionFactor: 1
-  limitFramerate: -1
+  limitFramerate: 60
   skipFrames: 0
   affineMapping: 1
   clampAffine: 0
@@ -23076,10 +23076,34 @@ MonoBehaviour:
   onColor: {r: 1, g: 1, b: 1, a: 0.7058824}
   newMicActivityEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 869357131}
+        m_TargetAssemblyTypeName: Monster, Assembly-CSharp
+        m_MethodName: InitialNoiseAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   quietMicEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 869357131}
+        m_TargetAssemblyTypeName: Monster, Assembly-CSharp
+        m_MethodName: NoMoreNoiseAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1575241958
 Transform:
   m_ObjectHideFlags: 0

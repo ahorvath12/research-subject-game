@@ -66,6 +66,7 @@ public class GameController : MonoBehaviour
     private float _eventStepTime = 10;
 
     private bool _initialized = false;
+    [HideInInspector] public bool canEndGame = false;
 
     void Awake() {
         if (Instance == null || Instance != this) {
@@ -84,7 +85,7 @@ public class GameController : MonoBehaviour
             InitializeEventTimes();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && state != GameState.PAUSE)
+        if (Input.GetKeyDown(KeyCode.Escape) && (state != GameState.PAUSE || uiState != UIState.GAME_END))
         {
             PauseGame();
             return;
@@ -99,7 +100,7 @@ public class GameController : MonoBehaviour
             timer += Time.deltaTime;
         }
 
-        if (timer >= maxTime)
+        if (timer >= maxTime && canEndGame)
         {
             _runTimer = false;
             state = GameState.GAME_WIN;

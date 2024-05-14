@@ -9,17 +9,21 @@ public class Monster : MonoBehaviour
     private Animator _animator;
 
     // animation vars
-    private float _activationTime = 50;
     private int _step = 0;
+    private int _prevStep = 0;
     private float _stepTimer;
     private bool _lookAtPlayer = false;
     private bool _playingAnimation = false;
 
     // noise vars
     private bool _timingNoise = false;
+    private bool _timingQuiet = false;
     private float _noiseTime = 0;
+    private float _quietTime = 0;
     private int _noiseLevel = 0; // goes up to 3
-    private int _maxNoiseLevel = 3;
+    private int _prevNoiseLevel = 0;
+    private int _maxNoiseLevel = 4;
+    private bool _canIncreaseNoiseLevel = true;
 
     private List<float> _noiseQueue = new List<float>();
     private int _noiseQueueMaxSize = 5;
@@ -52,7 +56,10 @@ public class Monster : MonoBehaviour
             return;
         }
 
-        HandleAnimation();
+        if (_noiseLevel == 0)
+        {
+            HandleAnimation();
+        }
 
         Debug.Log(_noiseLevel);
     }
@@ -65,6 +72,11 @@ public class Monster : MonoBehaviour
         }
 
         HandleNoise();
+
+        if (_prevNoiseLevel != _noiseLevel)
+        {
+            HandleNoiseLevel();
+        }
         if (_lookAtPlayer)
         {
             head.transform.LookAt(playerTarget);
@@ -99,29 +111,35 @@ public class Monster : MonoBehaviour
         {
             _noiseQueue.RemoveAt(0);
         }
+        _timingQuiet = false;
+        _quietTime = 0;
     }
 
     public void NoMoreNoiseAction()
     {
         _timingNoise = false;
         _noiseTime = 0;
+        _timingQuiet = true;
     }
 
     private void HandleNoise()
     {
+        if (!_canIncreaseNoiseLevel)
+        {
+            return;
+        }
+
+        _prevNoiseLevel = _noiseLevel;
+
         // handle constant noise
         if (_timingNoise)
         {
             _noiseTime += Time.deltaTime;
 
-            if (_noiseTime > 1 && _noiseLevel < _maxNoiseLevel)
+            if (_noiseTime > 0.5f && _noiseLevel < _maxNoiseLevel)
             {
                 _noiseLevel++;
                 _noiseTime = 0;
-            }
-            else if (_noiseTime <= 1 && _noiseLevel > 0)
-            {
-                _noiseLevel--;
             }
         }
 
@@ -136,40 +154,60 @@ public class Monster : MonoBehaviour
 
             averageNoiseBreakTime /= _noiseQueue.Count - 1;
 
-            if (averageNoiseBreakTime <= 1 && _noiseLevel < _maxNoiseLevel)
+            if (averageNoiseBreakTime <= 0.5f && _noiseLevel < _maxNoiseLevel)
             {
                 _noiseLevel++;
             }
-            else if (averageNoiseBreakTime > 1 && _noiseLevel > 0)
+            _noiseQueue = new List<float> { _noiseQueue[_noiseQueueMaxSize - 1] }; // reset queue
+        }
+
+        // constant quiet
+        if (_timingQuiet)
+        {
+            _quietTime += Time.deltaTime;
+
+            if (_quietTime > 2 && _noiseLevel > 0)
             {
                 _noiseLevel--;
+                _quietTime = 0;
             }
-            _noiseQueue = new List<float> { _noiseQueue[_noiseQueueMaxSize - 1] }; // reset queue
         }
     }
 
     private void HandleNoiseLevel()
     {
+        _canIncreaseNoiseLevel = false;
+        _animator.SetInteger("scare", _noiseLevel);
         switch (_noiseLevel)
         {
             case 0:
                 _lookAtPlayer = false;
-                _animator.SetInteger("scare", _noiseLevel);
                 break;
             case 1:
+                _animator.SetInteger("step", _step);
                 _lookAtPlayer = true;
                 break;
             case 2:
-                _animator.SetInteger("scare", _noiseLevel);
+                _animator.SetInteger("step", 0);
                 break;
             case 3:
-                _animator.SetInteger("scare", _noiseLevel);
+                break;
+            case 4:
+                StartCoroutine(TimeBeforeGameLose());
                 break;
             default:
                 break;
         }
+        StartCoroutine(SetTimerForNextScareLevel());
     }
 
+    private IEnumerator SetTimerForNextScareLevel()
+    {
+        yield return new WaitForSeconds(2);
+        _canIncreaseNoiseLevel = true;
+    }
+
+    // ANIMATION CALLBACKS
     public void SetWaitTimeAndhide(float time)
     {
         MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
@@ -181,21 +219,25 @@ public class Monster : MonoBehaviour
         _playingAnimation = false;
     }
 
-    public void EnableRenderer(bool enable)
-    {
-        MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
-        if (renderer)
-        {
-            renderer.enabled = enable;
-        }
-    }
-
     public void SetRandomWaitTime()
     {
         _stepTimer = Random.Range(1, 5);
         _playingAnimation = false;
     }
 
+    public void CanEndGame()
+    {
+        GameController.Instance.canEndGame = true;
+    }
+
+    private IEnumerator TimeBeforeGameLose()
+    {
+        GameController.Instance.ChangeGameState(GameState.GAME_LOSE);
+        yield return new WaitForSeconds(1.5f);
+        GameController.Instance.ChangeUIState(UIState.GAME_END);
+    }
+
+    // PAUSE CALLBACKS
     public void HandlePause()
     {
         _animator.speed = 0;
