@@ -41,6 +41,11 @@ public class HoverUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         _enableCount++;
     }
 
+    void OnDisable()
+    {
+        onHoverExitEvent.Invoke(hoverType);
+    }
+
     public void OnPointerEnter(PointerEventData eventData) {
         if (!this.isActiveAndEnabled) {
             return;

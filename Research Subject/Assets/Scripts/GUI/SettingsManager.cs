@@ -25,7 +25,6 @@ public class SettingsManager : MonoBehaviour
 
         micSlider.maxValue = 300;
         micSlider.value = PlayerPrefs.GetFloat("micSensitivity", micSlider.maxValue / 2);
-        Debug.Log(micSlider.value);
 
         if (volumeSlider)
         {

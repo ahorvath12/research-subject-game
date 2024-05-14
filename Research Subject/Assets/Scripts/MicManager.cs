@@ -39,7 +39,6 @@ public class MicManager : MonoBehaviour
 
         if (loudness > threshold)
         {
-            // Debug.Log("on " + loudness);
             foreach (Image icon in icons)
             {
                 icon.color = onColor;
@@ -50,8 +49,8 @@ public class MicManager : MonoBehaviour
                 newMicActivityEvent.Invoke();
             }
         }
-        else {
-            // Debug.Log("off " + loudness);
+        else
+        {
             foreach (Image icon in icons)
             {
                 icon.color = offColor;
@@ -70,7 +69,6 @@ public class MicManager : MonoBehaviour
         string microphoneName = Microphone.devices[micIndex];
         microphoneClip = Microphone.Start(microphoneName, true, 20, AudioSettings.outputSampleRate);
         source.clip = microphoneClip;
-        Debug.Log("set clip");
     }
 
     public float GetLoudnessFromMic() {
@@ -90,10 +88,6 @@ public class MicManager : MonoBehaviour
             totalLoudness += Mathf.Abs(waveData[i]);
         }
 
-        if (totalLoudness / sampleWindow == 0)
-        {
-            Debug.Log(totalLoudness + " " + sampleWindow + " " + Microphone.devices[PlayerPrefs.GetInt("micIndex", 0)] + PlayerPrefs.GetFloat("micSensitivity", 250));
-        }
         return totalLoudness / sampleWindow;
     }
  }

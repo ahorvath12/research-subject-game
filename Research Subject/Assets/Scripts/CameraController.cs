@@ -13,7 +13,9 @@ public class CameraController : MonoBehaviour
 
     private GameController _gameController;
     private UIState _state;
+    private UIState _prevState;
 
+    private Coroutine _activeCoroutine;
 
     void Start()
     {
@@ -21,6 +23,8 @@ public class CameraController : MonoBehaviour
 
         _gameController = GameController.Instance;
         _state = _gameController.uiState;
+
+        GameController.Instance.SubscribeToPause(HandlePause);
     }
 
     void Update()
@@ -30,10 +34,10 @@ public class CameraController : MonoBehaviour
 
             switch(_state) {
                 case UIState.START_VIEW_ROOM:
-                    StartCoroutine(LookUp());
+                    _activeCoroutine = StartCoroutine(LookUp());
                     break;
                 case UIState.START_VIEW_SURVEY:
-                    StartCoroutine(LookDown());
+                    _activeCoroutine = StartCoroutine(LookDown());
                     break;
                 default:
                     break;
@@ -69,6 +73,7 @@ public class CameraController : MonoBehaviour
         }
         transform.localEulerAngles = new Vector3(lookDownXRot,transform.localEulerAngles.y, transform.localEulerAngles.z);
         _gameController.uiState = UIState.VIEW_SURVEY;
+        _activeCoroutine = null;
     }
 
     private IEnumerator LookUp() {
@@ -84,5 +89,21 @@ public class CameraController : MonoBehaviour
         }
         transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, transform.localEulerAngles.z);
         _gameController.uiState = UIState.VIEW_ROOM;
+        _activeCoroutine = null;
+    }
+
+    private void HandlePause()
+    {
+        if (_activeCoroutine != null)
+        {
+            StopCoroutine(_activeCoroutine);
+        }
+
+        _prevState = _state;
+    }
+
+    private void HandleUnpause()
+    {
+        _state = _prevState;
     }
 }
