@@ -29,7 +29,7 @@ public class SettingsManager : MonoBehaviour
 
         if (volumeSlider)
         {
-            volumeSlider.value = PlayerPrefs.GetFloat("volume", 0);
+            volumeSlider.value = PlayerPrefs.GetFloat("volume", volumeSlider.maxValue);
         }
 
     }

@@ -4078,7 +4078,7 @@ MonoBehaviour:
   sections: 01010101
   customRes: {x: 1059, y: 642}
   resolutionFactor: 1
-  limitFramerate: -1
+  limitFramerate: 60
   skipFrames: 0
   affineMapping: 1
   clampAffine: 0
