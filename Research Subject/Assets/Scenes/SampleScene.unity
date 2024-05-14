@@ -4105,7 +4105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1575241958}
-  horizontalSpeed: 0.05
+  horizontalSpeed: 11
   verticalSpeed: 45
   lookDownXRot: 30
 --- !u!81 &423702729
@@ -4173,7 +4173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.18.4 - version ahead?!
   sections: 01010101
-  customRes: {x: 517, y: 291}
+  customRes: {x: 569, y: 320}
   resolutionFactor: 2
   limitFramerate: 60
   skipFrames: 0
@@ -6996,8 +6996,8 @@ MonoBehaviour:
   cfuStatus: PSXEffects v1.18.4 - version ahead?!
   sections: 01010101
   customRes: {x: 1107, y: 631}
-  resolutionFactor: 1
-  limitFramerate: -1
+  resolutionFactor: 2
+  limitFramerate: 60
   skipFrames: 0
   affineMapping: 1
   clampAffine: 0
@@ -11815,7 +11815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &928765339
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16118,8 +16118,8 @@ MonoBehaviour:
   cfuStatus: PSXEffects v1.18.4 - version ahead?!
   sections: 01010101
   customRes: {x: 1107, y: 631}
-  resolutionFactor: 1
-  limitFramerate: -1
+  resolutionFactor: 2
+  limitFramerate: 60
   skipFrames: 0
   affineMapping: 1
   clampAffine: 0
@@ -17528,7 +17528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.18.4 - version ahead?!
   sections: 01010100
-  customRes: {x: 1035, y: 582}
+  customRes: {x: 1138, y: 640}
   resolutionFactor: 1
   limitFramerate: -1
   skipFrames: 0

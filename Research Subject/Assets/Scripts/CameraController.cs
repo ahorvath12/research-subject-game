@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
 
         
         if (_state == UIState.VIEW_ROOM) {
-            _cameraYRotation += _currSpeed;
+            _cameraYRotation += _currSpeed * Time.deltaTime;
             _cameraYRotation = Mathf.Clamp(_cameraYRotation, -30,30);
             transform.localEulerAngles = Vector3.up * _cameraYRotation;
         }

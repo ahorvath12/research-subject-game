@@ -13,6 +13,7 @@ public class Monster : MonoBehaviour
     private int _step = 0;
     private float _stepTimer;
     private bool _lookAtPlayer = false;
+    private bool _playingAnimation = false;
 
     // noise vars
     private bool _timingNoise = false;
@@ -26,6 +27,11 @@ public class Monster : MonoBehaviour
     void Start()
     {
         _animator = this.gameObject.GetComponent<Animator>();
+
+        _stepTimer = GameController.Instance.monsterStartTime;
+
+        GameController.Instance.SubscribeToPause(HandlePause);
+        GameController.Instance.SubscribeToUnpause(HandleUnpause);
     }
 
     // Update is called once per frame
@@ -33,7 +39,7 @@ public class Monster : MonoBehaviour
     {
         GameController gameController = GameController.Instance;
 
-        if (gameController.state != GameState.RUNNING || gameController.timer < gameController.monsterStartTime)
+        if (gameController.state != GameState.RUNNING)
         {
             return;
         }
@@ -73,10 +79,14 @@ public class Monster : MonoBehaviour
             return;
         }
 
-        _step++;
+        if (_playingAnimation)
+        {
+            return;
+        }
 
+        _step++;
         _animator.SetInteger("step", _step);
-        _stepTimer = Random.Range(3, 5);
+        _playingAnimation = true;
     }
 
     // NOISE FUNCTIONS
@@ -160,8 +170,39 @@ public class Monster : MonoBehaviour
         }
     }
 
-    public void SetWaitTime(float time)
+    public void SetWaitTimeAndhide(float time)
     {
+        MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
+        if (renderer)
+        {
+            renderer.enabled = false;
+        }
         _stepTimer = time;
+        _playingAnimation = false;
+    }
+
+    public void EnableRenderer(bool enable)
+    {
+        MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
+        if (renderer)
+        {
+            renderer.enabled = enable;
+        }
+    }
+
+    public void SetRandomWaitTime()
+    {
+        _stepTimer = Random.Range(1, 5);
+        _playingAnimation = false;
+    }
+
+    public void HandlePause()
+    {
+        _animator.speed = 0;
+    }
+
+    public void HandleUnpause()
+    {
+        _animator.speed = 1;
     }
 }
