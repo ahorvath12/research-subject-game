@@ -7,6 +7,10 @@ public class Monster : MonoBehaviour
     public GameObject head;
     public Transform playerTarget;
     private Animator _animator;
+    public Renderer meshRenderer;
+    public AudioSource staticAudioSource;
+
+    public List<AudioClip> jumpscareAudio = new List<AudioClip>();
 
     // animation vars
     private int _step = 0;
@@ -23,7 +27,7 @@ public class Monster : MonoBehaviour
     private int _noiseLevel = 0; // goes up to 3
     private int _prevNoiseLevel = 0;
     private int _maxNoiseLevel = 4;
-    private bool _canIncreaseNoiseLevel = true;
+    private bool _canChangeNoiseLevel = true;
 
     private List<float> _noiseQueue = new List<float>();
     private int _noiseQueueMaxSize = 5;
@@ -46,6 +50,18 @@ public class Monster : MonoBehaviour
         if (gameController.state != GameState.RUNNING)
         {
             return;
+        }
+
+        if (_step > 0)
+        {
+            if (meshRenderer.isVisible && !staticAudioSource.isPlaying)
+            {
+                staticAudioSource.Play();
+            }
+            else
+            {
+                staticAudioSource.Pause();
+            }
         }
 
         if (gameController.timer >= gameController.maxTime - 5)
@@ -75,6 +91,10 @@ public class Monster : MonoBehaviour
 
         if (_prevNoiseLevel != _noiseLevel)
         {
+            if (_prevNoiseLevel < _noiseLevel)
+            {
+                PlayAudioClip();
+            }
             HandleNoiseLevel();
         }
         if (_lookAtPlayer)
@@ -101,6 +121,18 @@ public class Monster : MonoBehaviour
         _playingAnimation = true;
     }
 
+    private void PlayAudioClip()
+    {
+        AudioSource source = this.gameObject.GetComponent<AudioSource>();
+        if (!source || _noiseLevel < 2)
+        {
+            return;
+        }
+
+        source.clip = jumpscareAudio[_noiseLevel - 2];
+        source.Play();
+    }
+
     // NOISE FUNCTIONS
 
     public void InitialNoiseAction()
@@ -124,7 +156,7 @@ public class Monster : MonoBehaviour
 
     private void HandleNoise()
     {
-        if (!_canIncreaseNoiseLevel)
+        if (!_canChangeNoiseLevel)
         {
             return;
         }
@@ -176,7 +208,7 @@ public class Monster : MonoBehaviour
 
     private void HandleNoiseLevel()
     {
-        _canIncreaseNoiseLevel = false;
+        _canChangeNoiseLevel = false;
         _animator.SetInteger("scare", _noiseLevel);
         switch (_noiseLevel)
         {
@@ -193,6 +225,7 @@ public class Monster : MonoBehaviour
             case 3:
                 break;
             case 4:
+                _canChangeNoiseLevel = false;
                 StartCoroutine(TimeBeforeGameLose());
                 break;
             default:
@@ -204,7 +237,7 @@ public class Monster : MonoBehaviour
     private IEnumerator SetTimerForNextScareLevel()
     {
         yield return new WaitForSeconds(2);
-        _canIncreaseNoiseLevel = true;
+        _canChangeNoiseLevel = true;
     }
 
     // ANIMATION CALLBACKS
@@ -228,6 +261,8 @@ public class Monster : MonoBehaviour
     public void CanEndGame()
     {
         GameController.Instance.canEndGame = true;
+        _animator.enabled = false;
+
     }
 
     private IEnumerator TimeBeforeGameLose()
@@ -241,10 +276,25 @@ public class Monster : MonoBehaviour
     public void HandlePause()
     {
         _animator.speed = 0;
+
+        AudioSource source = this.gameObject.GetComponent<AudioSource>();
+        if (source && source.isPlaying)
+        {
+            source.Pause();
+        }
+
+        staticAudioSource.Pause();
     }
 
     public void HandleUnpause()
     {
         _animator.speed = 1;
+        AudioSource source = this.gameObject.GetComponent<AudioSource>();
+        if (source)
+        {
+            source.UnPause();
+        }
+
+        staticAudioSource.UnPause();
     }
 }

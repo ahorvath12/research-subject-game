@@ -73,8 +73,7 @@ public class GameGuiManager : MonoBehaviour
                     pauseUI.SetActive(true);
                     break;
                 case UIState.GAME_END:
-                    mainUI.SetActive(false);
-                    surveyUI.SetActive(false);
+                    fadeManager.QueueFade(new List<FadingUI> { new FadingUI(mainUI.GetComponent<CanvasGroup>(), 0) });
                     HandleGameEnd();
                     break;
                 default:
@@ -134,7 +133,7 @@ public class GameGuiManager : MonoBehaviour
 
         if (GameController.Instance.state == GameState.GAME_WIN)
         {
-            tvScreen.SetActive(false);
+            tvScreen.GetComponent<TvScreen>().TurnOff();
             fadeList.Add(new FadingUI(blackPanel, 1, _gameController.ChangeCamera, 0.5f));
             fadeList.Add(new FadingUI(blackPanel, 0));
             fadeList.Add(new FadingUI(gameWinUI, 1, null, 1));

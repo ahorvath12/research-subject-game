@@ -85,7 +85,7 @@ public class GameController : MonoBehaviour
             InitializeEventTimes();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && (state != GameState.PAUSE || uiState != UIState.GAME_END))
+        if (Input.GetKeyDown(KeyCode.Escape) && state != GameState.PAUSE && uiState != UIState.GAME_END)
         {
             PauseGame();
             return;

@@ -35,6 +35,11 @@ public class MicManager : MonoBehaviour
             MicrophoneToAudioClip();
         }
 
+        if (GameController.Instance.state == GameState.GAME_LOSE || GameController.Instance.state == GameState.GAME_WIN)
+        {
+            return;
+        }
+
         float loudness = GetLoudnessFromMic() * PlayerPrefs.GetFloat("micSensitivity", 150);
 
         if (loudness > threshold)
