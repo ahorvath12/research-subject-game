@@ -23,7 +23,7 @@ public class SettingsManager : MonoBehaviour
     {
         UpdateMicList();
 
-        micSlider.maxValue = 300;
+        micSlider.maxValue = 1000;
         micSlider.value = PlayerPrefs.GetFloat("micSensitivity", micSlider.maxValue / 2);
 
         if (volumeSlider)
@@ -36,6 +36,10 @@ public class SettingsManager : MonoBehaviour
     void Update() {
         if (_micListCount != Microphone.devices.Length) {
             UpdateMicList();
+        }
+        if (PlayerPrefs.GetInt("micIndex") != micDropdown.value)
+        {
+            micDropdown.value = PlayerPrefs.GetInt("micIndex");
         }
         if (PlayerPrefs.GetFloat("micSensitivity") != micSlider.value) {
             micSlider.value = PlayerPrefs.GetFloat("micSensitivity");

@@ -72,7 +72,7 @@ public class MicManager : MonoBehaviour
     public void MicrophoneToAudioClip() {
         micIndex = PlayerPrefs.GetInt("micIndex", 0);
         string microphoneName = Microphone.devices[micIndex];
-        microphoneClip = Microphone.Start(microphoneName, true, 20, AudioSettings.outputSampleRate);
+        microphoneClip = Microphone.Start(microphoneName, true, 20, AudioSettings.GetConfiguration().sampleRate);
         source.clip = microphoneClip;
     }
 

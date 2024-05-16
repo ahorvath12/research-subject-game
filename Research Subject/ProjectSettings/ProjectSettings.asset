@@ -372,7 +372,8 @@ PlayerSettings:
   enableCrashReportAPI: 0
   cameraUsageDescription: 
   locationUsageDescription: 
-  microphoneUsageDescription: 
+  microphoneUsageDescription: Microphone used to detect loudness from player for
+    game mechanics.
   bluetoothUsageDescription: 
   switchNMETAOverride: 
   switchNetLibKey: 
